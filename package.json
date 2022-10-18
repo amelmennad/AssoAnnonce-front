@@ -4,9 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "env-cmd -f ./config/dev.env next dev",
-    "preprod": "env-cmd -f ./config/prod.env next dev",
-    "build": "env-cmd -f ./config/prod.env next build",
-    "start": "env-cmd -f ./config/prod.env next start",
+    "build:dev": "env-cmd -f ./config/dev.env next build",
+    "start:dev": "env-cmd -f ./config/dev.env next start",
+    "preprod": "env-cmd -f ./config/preprod.env next dev",
+    "build:preprod": "env-cmd -f ./config/preprod.env next build",
+    "start:preprod": "env-cmd -f ./config/preprod.env next start",
+    "start": "next start",
+    "build": "next build",
     "lint": "next lint",
     "test": "jest --watchAll"
   },

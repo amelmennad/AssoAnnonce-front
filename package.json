@@ -1,0 +1,29 @@
+{
+  "name": "assoannonce-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest --watch"
+  },
+  "dependencies": {
+    "next": "12.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "babel-jest": "^29.2.0",
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.2.0",
+    "react-test-renderer": "^18.2.0"
+  }
+}

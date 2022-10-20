@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BiHomeSmile } from 'react-icons/bi';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -13,8 +14,13 @@ export default function NavbarCustom() {
             className=' justify-content-center flex-grow-1 pe-3'
             navbarScroll={true}
           >
-            <Nav.Link href='/association'>association</Nav.Link>
-            <Nav.Link href='/benevole'>benevole</Nav.Link>
+            <Nav.Link href='/'>
+              <span>
+                <BiHomeSmile />
+              </span>
+            </Nav.Link>
+            <Nav.Link href='/inscription'>Inscription</Nav.Link>
+            <Nav.Link href='/connexion'>Connexion</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

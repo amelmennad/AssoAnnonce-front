@@ -1,29 +1,38 @@
+import styles from './Navbar.module.scss';
 import Link from 'next/link';
 import { BiHomeSmile } from 'react-icons/bi';
-
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { CgProfile } from 'react-icons/cg';
 
 export default function NavbarCustom() {
   return (
-    <>
-      <Navbar bg='light' variant='light' sticky='top'>
-        <Container>
-          <Nav
-            className=' justify-content-center flex-grow-1 pe-3'
-            navbarScroll={true}
-          >
-            <Nav.Link href='/'>
-              <span>
-                <BiHomeSmile />
-              </span>
-            </Nav.Link>
-            <Nav.Link href='/inscription'>Inscription</Nav.Link>
-            <Nav.Link href='/connexion'>Connexion</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-    </>
+    <div className=' bg-light'>
+      <nav className={styles.navbar} navbarScroll={true}>
+        <div>
+          <Link href='/'>
+            <a>
+              <BiHomeSmile />
+            </a>
+          </Link>
+        </div>
+        <div>
+          <Link href=''>
+            <a>Annonces</a>
+          </Link>
+        </div>
+        <div>
+          <Link href='/inscription'>
+            <a>Inscription</a>
+          </Link>
+          <Link href='/connexion'>
+            <a>Connexion</a>
+          </Link>
+          {/* <Link href=''>
+            <a>
+              <CgProfile />
+            </a>
+          </Link> */}
+        </div>
+      </nav>
+    </div>
   );
 }

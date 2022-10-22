@@ -1,0 +1,19 @@
+@import '../../styles/colorTheme';
+
+.navbar{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 500;
+    background-color: $light;
+}
+
+.navbar a {
+    margin: 0 10px;
+    color: $secondary;
+    text-decoration: none;
+}
+.navbar a:hover {
+    color: $primary;
+}

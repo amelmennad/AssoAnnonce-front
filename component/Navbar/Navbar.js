@@ -5,7 +5,6 @@ import { CgProfile } from 'react-icons/cg';
 
 export default function NavbarCustom() {
   return (
-    <div className=' bg-light'>
       <nav className={styles.navbar} navbarScroll={true}>
         <div>
           <Link href='/'>
@@ -33,6 +32,5 @@ export default function NavbarCustom() {
           </Link> */}
         </div>
       </nav>
-    </div>
   );
 }

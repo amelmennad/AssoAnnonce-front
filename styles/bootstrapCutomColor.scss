@@ -1,3 +1,4 @@
+
 $dark: #071013ff;
 $primary: #275dadff;
 $light: #eaf2efff;
@@ -6,4 +7,5 @@ $danger : #E00400;
 $success: #4ED0D0;
 $secondary : #327186;
 
-$bg-navbar: #FFFF;
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';

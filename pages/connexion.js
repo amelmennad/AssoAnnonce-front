@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ButtonCustom from 'component/BootstrapCustom/ButtonCustom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import PageContainer from 'component/PageContainer/PageContainer';
 
 export default function connexion() {
   const [validated, setValidated] = useState(false);
@@ -16,7 +17,7 @@ export default function connexion() {
     setValidated(true);
   };
   return (
-    <section className='container' id='connexion'>
+    <PageContainer>
       <h2 className='text-center'>Se connecter</h2>
       <div className='w-50 d-flex container'>
         <div className='w-50 d-flex justify-content-center align-item-center '>
@@ -57,6 +58,6 @@ export default function connexion() {
           />
         </div>
       </div>
-    </section>
+    </PageContainer>
   );
 }

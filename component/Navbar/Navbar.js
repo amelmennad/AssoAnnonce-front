@@ -5,7 +5,7 @@ import { CgProfile } from 'react-icons/cg';
 
 export default function NavbarCustom() {
   return (
-      <nav className={styles.navbar} navbarScroll={true}>
+      <nav className={styles.navbar + " sticky-top"}>
         <div>
           <Link href='/'>
             <a>

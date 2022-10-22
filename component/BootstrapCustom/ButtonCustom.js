@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
-export default function ButtonCustom({ name, type, href }) {
+export default function ButtonCustom({ name, type, href, className }) {
   return (
     <>
       <style type='text/css'>
@@ -20,13 +20,13 @@ export default function ButtonCustom({ name, type, href }) {
       </style>
       {href ? (
         <Link href={href}>
-          <Button variant='flat' type={type}>
+          <Button variant='flat' type={type} className={className}>
             <a>{name}</a>
           </Button>
           {}
         </Link>
       ) : (
-        <Button variant='flat' type={type}>
+        <Button variant='flat' type={type} className={className}>
           {name}
         </Button>
       )}

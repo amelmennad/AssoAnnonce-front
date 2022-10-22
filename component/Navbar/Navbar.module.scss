@@ -1,4 +1,4 @@
-@import '../../styles/colorTheme';
+@import '../../styles/_colorTheme.scss';
 
 .navbar{
     padding: 10px;
@@ -6,7 +6,7 @@
     justify-content: space-between;
     font-size: 20px;
     font-weight: 500;
-    background-color: $light;
+    background-color: $bg-navbar;
 }
 
 .navbar a {

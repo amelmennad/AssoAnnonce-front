@@ -3,61 +3,56 @@ import ButtonCustom from 'component/BootstrapCustom/ButtonCustom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import PageContainer from 'component/PageContainer/PageContainer';
+import Login from 'component/Login/Login';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 export default function connexion() {
-  const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    setValidated(true);
-  };
   return (
-    <PageContainer>
-      <h2 className='text-center'>Se connecter</h2>
-      <div className='w-50 d-flex container'>
-        <div className='w-50 d-flex justify-content-center align-item-center '>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className='mb-3 fw-semibold' controlId='formBasicEmail'>
-              <Form.Label>Email address</Form.Label>
-              <Form.Control required type='email' placeholder='Enter email' />
-              <Form.Control.Feedback type='invalid'>
-                Entrer une adresse mail valide
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group
-              className='mb-3 fw-semibold'
-              controlId='formBasicPassword'
-            >
-              <Form.Label>Password</Form.Label>
-              <Form.Control required type='password' placeholder='Password' />
-              <Form.Control.Feedback type='invalid'>
-                Entrer un mot de passe valide
-              </Form.Control.Feedback>
-            </Form.Group>
-            <div className='d-flex justify-content-center'>
-              <ButtonCustom
-                variant='primary'
-                type='submit'
-                name={'Se connecter'}
-              >
-                Submit
-              </ButtonCustom>
-            </div>
-          </Form>
+    <PageContainer>        
+      <div className='container  d-flex flex-wrap'>
+
+        <div md="12" className='col-lg-6 col-'>
+          <Login />
         </div>
+
         <div className='w-50 d-flex justify-content-center align-items-center'>
-          <ButtonCustom
-            type='button'
-            name={"S'inscrire"}
-            href={'/inscription'}
-          />
-        </div>
+          <h2 className='text-center'>S'inscrire</h2>
+          <div className="row w-100 ">
+            <Container>
+              <Row>
+                <Col s md="8" lg="5" xl="4" className='m-auto'>
+                  <ButtonCustom
+                    className={'w-100 mt-5 mb-5'}
+                    type='button'
+                    name={'Créer un compte Bénévole'}
+                    href={'/benevole/inscription'}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col s md="8" lg="5" xl="4" className='m-auto'>
+                  <ButtonCustom
+                    className={'w-100 mt-5'}
+                    type='button'
+                    name={'Créer un compte Association'}
+                    href={'/association/inscription'}
+                  />
+                </Col>
+              </Row>
+            </Container>
+          </div>
+          {/* <ButtonCustom
+          type='button'
+          name={"S'inscrire"}
+          href={'/inscription'}
+        /> */}
+        </div>      
       </div>
+
     </PageContainer>
   );
 }

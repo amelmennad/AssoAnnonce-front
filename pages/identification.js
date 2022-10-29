@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import PageContainer from "component/PageContainer/PageContainer";
-import ButtonCustom from "component/BootstrapCustom/ButtonCustom";
 
 import styles from "../styles/Identification.module.scss";
 
+import PageContainer from "component/PageContainer/PageContainer";
+import EmailInput from "component/Input/EmailInput";
+import PasswordInput from "component/Input/PasswordInput";
+import Button from "../component/Button/Button";
+
 export default function connexion() {
-  const [email, setEmail] = useState("s@s.ss");
+  const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState("");
-  const [password, setPassword] = useState("Azerty1.");
+  const [password, setPassword] = useState("");
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [validated, setValidated] = useState(true);
   const [user, setUser] = useState();
@@ -46,7 +49,6 @@ export default function connexion() {
         data
       );
       setUser(responseVolunteer.data);
-      console.log("file: identification.js -> line 16 -> user", user);
       router.push("/benevole/profil");
     } catch (error) {
       try {
@@ -55,31 +57,25 @@ export default function connexion() {
           data
         );
         setUser(responseAssociation.data);
-        console.log("file: identification.js -> line 16 -> user", user);
         router.push("/association/profil");
       } catch (error) {
-        console.log("not association");
+        setValidated(false);
       }
     }
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const datata = {
-      email: "tintin@ti.como",
-      password: "Test32asso.",
-    };
 
     if (!email || invalidEmail || !password || invalidPassword) {
       setValidated(false);
       e.preventDefault();
       e.stopPropagation();
     } else {
-      const loginData = {
+      searchUser({
         email: email,
         password: password,
-      };
-      searchUser(datata);
+      });
     }
   };
   return (
@@ -88,75 +84,44 @@ export default function connexion() {
         <div className={styles.login}>
           <h2>Connexion</h2>
           <form onSubmit={handleLoginSubmit}>
-            <label htmlFor="email">Adresse e-mail</label>
-            <input
-              id="email"
-              required
-              type="Adresse mail"
-              placeholder="Adresse e-mail"
-              defaultValue={email}
-              onChange={handleChangeEmail}
-              className={
-                (!validated && email === "") || invalidEmail
-                  ? "isInvalid"
-                  : email && !invalidEmail
-                  ? "isValid"
-                  : ""
-              }
-            />
-            <label>Mot de passe</label>
-            <input
-              required
-              type="text"
-              placeholder="Mot de passe"
-              defaultValue={password}
-              onChange={handleChangePassword}
-              className={
-                (!validated && password === "") || invalidPassword
-                  ? "isInvalid"
-                  : password && !invalidPassword
-                  ? "isValid"
-                  : ""
-              }
-            />
-
-            {((!validated && password === "") || invalidPassword) && (
-              <>
-                <p className="error">Entrer un mot de passe valide</p>
-                <p className="info">
-                  Votre mot de passe doit comporter 8 caractères minimum, 1 majuscule, 1 minuscule,
-                  1 chiffre et 1 caractère spécial.
-                </p>
-              </>
+            {!validated && !user ? (
+              <p className="error"> Adresse e-mail ou mot de passe incorrect </p>
+            ) : (
+              ""
             )}
-            <div className={styles.button}>
-              <ButtonCustom
-                type="submit"
-                name={"Connexion"}
-                // href={"/association/inscription"}
-              />
+            <EmailInput
+              nameEn={"email"}
+              nameFR={"Adresse e-mail"}
+              required={true}
+              stateName={email}
+              onChange={handleChangeEmail}
+              validated={validated}
+              invalid={invalidEmail}
+            />
+            <PasswordInput
+              nameEn={"password"}
+              nameFR={"Mot de passe"}
+              required={true}
+              stateName={password}
+              onChange={handleChangePassword}
+              validated={validated}
+              invalid={invalidPassword}
+            />
+            <div className="btn">
+              <Button type="submit" name={"Connexion"} />
             </div>
           </form>
         </div>
         <div className={styles.register}>
           <h2>S'inscrire</h2>
 
-          <ButtonCustom
-            type="button"
-            name={"Créer un compte Bénévole"}
-            href={"/benevole/inscription"}
-          />
-          <ButtonCustom
+          <Button type="button" name={"Créer un compte Bénévole"} href={"/benevole/inscription"} />
+          <Button
             type="button"
             name={"Créer un compte Association"}
             href={"/association/inscription"}
           />
         </div>
-        {/* <ButtonCustom
-          type='button'
-          name={"S'inscrire"}
-          href={'/inscription'}
-        /> */}
       </div>
     </PageContainer>
   );

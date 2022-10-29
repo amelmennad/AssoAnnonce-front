@@ -1,8 +1,13 @@
-import ButtonCustom from "component/BootstrapCustom/ButtonCustom";
-import PageContainer from "component/PageContainer/PageContainer";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+
+import ButtonCustom from "component/Button/Button";
+import PageContainer from "component/PageContainer/PageContainer";
+import TextInput from "component/Input/textInput";
+import PasswordInput from "component/Input/PasswordInput";
+import EmailInput from "component/Input/EmailInput";
+
 import styles from "../../styles/Register.module.scss";
 
 function Inscription() {
@@ -15,21 +20,17 @@ function Inscription() {
   const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState("");
   const [password, setPassword] = useState("");
+  console.log("file: inscription.js -> line 23 -> password", password);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  console.log("file: inscription.js -> line 25 -> confirmPassword", confirmPassword);
   const [matchPassword, setMatchPassword] = useState(false);
+  console.log("file: inscription.js -> line 27 -> matchPassword", matchPassword);
 
   const [cgu, setCgu] = useState(false);
 
   const [validated, setValidated] = useState(true);
 
-  const handleChangeLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleChangeFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
 
   const checkBirthday = (e) => {
     const diff = new Date(Date.now() - new Date(e.target.value).getTime());
@@ -84,7 +85,7 @@ function Inscription() {
         data
       );
       console.log("file: inscription.js -> line 82 -> response", response.data);
-      // router.push("/");
+      router.push("/benevole/profil");
     } catch (error) {
       console.log("file: inscription.js -> line 87 -> error", error);
       console.log("file: inscription.js -> line 87 -> error", error.response.data);
@@ -107,10 +108,12 @@ function Inscription() {
       !matchPassword ||
       !cgu
     ) {
+      console.log("titi");
       setValidated(false);
       e.preventDefault();
       e.stopPropagation();
     } else {
+      console.log("toto");
       const newVolunteer = {
         firstName: firstName,
         lastName: lastName,
@@ -131,32 +134,25 @@ function Inscription() {
           <h3>Bénévoles</h3>
         </div>
 
-        <form noValidate onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           {!validated && (
-            <p className={styles.isInvalid}>Les champs en rouges doivent etres remplis et valide</p>
+            <p className="isInvalid">Les champs en rouges doivent etres remplis et valide</p>
           )}
-          <label>Nom</label>
-          <input
-            required={false}
-            type="text"
-            placeholder="Nom"
-            defaultValue={lastName}
-            onChange={handleChangeLastName}
-            className={
-              !validated && lastName === "" ? styles.isInvalid : lastName ? styles.isValid : ""
-            }
+          <TextInput
+            nameEn={"lastName"}
+            nameFR={"Nom"}
+            required={true}
+            stateName={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            validated={validated}
           />
-
-          <label>Prénom</label>
-          <input
-            required
-            type="text"
-            placeholder="Prénom"
-            defaultValue={firstName}
-            onChange={handleChangeFirstName}
-            className={
-              !validated && firstName === "" ? styles.isInvalid : firstName ? styles.isValid : ""
-            }
+          <TextInput
+            nameEn={"firstName"}
+            nameFR={"Prénom"}
+            required={true}
+            stateName={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            validated={validated}
           />
 
           <label>Date de naissance</label>
@@ -167,82 +163,61 @@ function Inscription() {
             onBlur={checkBirthday}
             className={
               (!validated && birthday === "") || invalidBirthday
-                ? styles.isInvalid
+                ? "isInvalid"
                 : birthday && !invalidBirthday
-                ? styles.isValid
+                ? "isValid"
                 : ""
             }
           />
-          <p className={styles.info}>Pour vous inscrire vous devez avoir 16 ans ou plus</p>
+          <p className="info">Pour vous inscrire vous devez avoir 16 ans ou plus</p>
           {(!validated && birthday === "") ||
-            (invalidBirthday && <p className={styles.error}>Désolé vous êtes trops jeune 😔</p>)}
+            (invalidBirthday && <p className="error">Désolé vous êtes trops jeune 😔</p>)}
 
-          <label>Email</label>
-          <input
-            required
-            type="Adresse mail"
-            placeholder="Adresse mail"
-            defaultValue={email}
+          <EmailInput
+            nameEn={"email"}
+            nameFR={"Adresse e-mail"}
+            required={true}
+            stateName={email}
             onChange={handleChangeEmail}
-            className={
-              (!validated && email === "") || invalidEmail
-                ? styles.isInvalid
-                : email && !invalidEmail
-                ? styles.isValid
-                : ""
-            }
+            validated={validated}
+            invalid={invalidEmail}
           />
 
-          <label>Mot de passe</label>
-          <input
-            required
-            type="text"
-            placeholder="Mot de passe"
-            defaultValue={password}
+          <PasswordInput
+            nameEn={"password"}
+            nameFR={"Mot de passe"}
+            required={true}
+            stateName={password}
             onChange={handleChangePassword}
-            className={
-              (!validated && password === "") || invalidPassword
-                ? styles.isInvalid
-                : password && !invalidPassword
-                ? styles.isValid
-                : ""
-            }
+            validated={validated}
+            invalid={invalidPassword}
           />
-          <p className={styles.info}>
+          <p className="info">
             Votre mot de passe doit comporter 8 caractères minimum, 1 majuscule, 1 minuscule, 1
             chiffre et 1 caractère spécial.
           </p>
           {((!validated && password === "") || invalidPassword) && (
-            <p className={styles.error}>Entrer un mot de passe valide</p>
+            <p className="error">Entrer un mot de passe valide</p>
           )}
-
-          <label>Confirmation du mot de passe</label>
-          <input
-            required
-            type="text"
-            placeholder="Mot de passe"
-            defaultValue={confirmPassword}
+          <PasswordInput
+            nameEn={"confirmPassword"}
+            nameFR={"Confirmation du mot de passe"}
+            required={true}
+            stateName={confirmPassword}
             onChange={comparePassword}
-            className={
-              (!validated && confirmPassword === "") || (confirmPassword !== "" && !matchPassword)
-                ? styles.isInvalid
-                : confirmPassword && matchPassword
-                ? styles.isValid
-                : ""
-            }
+            validated={validated}
+            invalid={confirmPassword}
           />
           {((!matchPassword && confirmPassword !== "") || (!matchPassword && !validated)) && (
-            <p className={styles.error}>Les mots de passes sont différents</p>
+            <p className="error">Les mots de passes sont différents</p>
           )}
 
           <div className={styles.cgu}>
             <input type="checkbox" required onChange={handleChangeCgu} defaultValue={cgu} />
             <label className="">J'accepte les conditions d'utilisation</label>
-            {!cgu && !validated && (
-              <p className={styles.error}>Obligatoire pour valider l'inscription</p>
-            )}
+            {!cgu && !validated && <p className="error">Obligatoire pour valider l'inscription</p>}
           </div>
-          <div>
+          <div className="btn">
             <ButtonCustom name={"Inscription"} type={"submit"} />
           </div>
         </form>

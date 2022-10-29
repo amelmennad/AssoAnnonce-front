@@ -45,11 +45,6 @@ h3 {
 
   color: $grey;
 }
-
-form {
-  display: flex;
-  flex-direction: column;
-
   .info {
     color: $info;
     font-style: italic;
@@ -58,7 +53,10 @@ form {
   .error {
     color: $error;
   }
-
+  
+form {
+  display: flex;
+  flex-direction: column;
   &:focus {
     outline: none;
     border: 1px solid $secondary;
@@ -71,11 +69,10 @@ form {
   }
 
   input {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     padding: 15px 7.5px;
     border: 1px solid $grey;
     border-radius: 0.375rem;
-    margin-left: 1rem;
 
     &:focus {
       outline: none;

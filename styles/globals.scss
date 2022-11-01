@@ -81,12 +81,13 @@ form {
   }
 
   .isInvalid {
-    border-color: $error;
-    color: $error;
+    border-color: $error!important;
+    color: $error!important;
   }
 
   .isValid {
-    border-color: $success;
+    border-color: $success!important;
+    color: $success!important;
   }
 }
 // @media (prefers-color-scheme: dark) {

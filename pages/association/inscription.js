@@ -1,46 +1,47 @@
-import ButtonCustom from "component/BootstrapCustom/ButtonCustom";
+import ButtonCustom from "component/Button/Button";
 import PageContainer from "component/PageContainer/PageContainer";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import styles from "../../styles/Register.module.scss";
+import TextInput from "component/Input/textInput";
+import FileInput from "component/Input/FileInput";
+import YesNoRadioInput from "component/Input/yesNoRadioInput";
+import PasswordInput from "component/Input/PasswordInput";
+import EmailInput from "component/Input/EmailInput";
 
 function Inscription() {
-  const router = useRouter();
-
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [invalidBirthday, setInvalidBirthday] = useState(false);
   const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState("");
+  const [powerDelegation, setPowerDelegation] = useState("");
+  const [associationStatutes, setAssociationStatutes] = useState("");
+  const [interiorRules, setInteriorRules] = useState("");
+  const [secondaryEstablishment, setSecondaryEstablishment] = useState(false);
+  const [address, setAddress] = useState("");
+  const [rnaNumber, setRnaNumber] = useState("");
+  const [sirene, setSirene] = useState(false);
+  const [sireneNumber, setSireneNumber] = useState("");
+  const [associationName, setAssociationName] = useState("");
+  const [objectAssociation, setObjectAssociation] = useState("");
+  const [headOffice, setHeadOffice] = useState("");
+  const [joafePublication, setJoafePublication] = useState("");
+  const [publicUtility, setPublicUtility] = useState(false);
+  const [approvale, setApprovale] = useState(false);
+  const [needInsurance, setNeedInsurance] = useState(false);
+  const [alsaceMoselleLaw, setAlsaceMoselleLaw] = useState(false);
+  const [publicUtilityNotification, setPublicUtilityNotification] = useState("");
+  const [approvaleCertificate, setApprovaleCertificate] = useState("");
+  const [insuranceCopy, setInsuranceCopy] = useState("");
   const [password, setPassword] = useState("");
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [matchPassword, setMatchPassword] = useState(false);
-
+  const [noMatchPassword, setNoMatchPassword] = useState(false);
   const [cgu, setCgu] = useState(false);
-
   const [validated, setValidated] = useState(true);
 
-  const handleChangeLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const handleChangeFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const checkBirthday = (e) => {
-    const diff = new Date(Date.now() - new Date(e.target.value).getTime());
-    const age = Math.abs(diff.getUTCFullYear() - 1970);
-    if (age < 16) {
-      setInvalidBirthday(true);
-    } else if (age >= 16) {
-      setInvalidBirthday(false);
-    }
-    setBirthday(e.target.value);
-  };
+  const router = useRouter();
 
   const handleChangeEmail = (e) => {
     setInvalidEmail(false);
@@ -68,24 +69,28 @@ function Inscription() {
 
   const comparePassword = (e) => {
     setConfirmPassword(e.target.value);
-    if (password === e.target.value) {
-      setMatchPassword(true);
-    }
-  };
+    setNoMatchPassword(false);
 
-  const handleChangeCgu = (e) => {
-    setCgu(!cgu);
+    if (password !== e.target.value) {
+      setNoMatchPassword(true);
+    }
+    if (password === e.target.value) {
+      setNoMatchPassword(false);
+    }
   };
 
   const sendDate = async (data) => {
     try {
-      const response = await axios.post(`http://localhost:3100/api/volunteer/register`, data);
-      console.log("file: inscription.js -> line 82 -> response", response.data);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/register`,
+        data
+      );
+      console.log("file: inscription.js -> line 88 -> response", response);
+      // router.push("/");
     } catch (error) {
       console.log("file: inscription.js -> line 87 -> error", error);
       console.log("file: inscription.js -> line 87 -> error", error.response.data);
     }
-    // router.push("/");
   };
 
   const handleSubmit = (e) => {
@@ -94,28 +99,112 @@ function Inscription() {
     if (
       !lastName ||
       !firstName ||
-      !birthday ||
-      invalidBirthday ||
       !email ||
       invalidEmail ||
+      !address ||
+      !powerDelegation ||
+      !associationStatutes ||
+      !interiorRules ||
+      !associationName ||
+      !objectAssociation ||
+      !headOffice ||
+      !rnaNumber ||
+      !joafePublication ||
       !password ||
       invalidPassword ||
       !confirmPassword ||
-      !matchPassword ||
+      noMatchPassword ||
       !cgu
     ) {
+      if (publicUtility && !publicUtilityNotification) {
+        setValidated(false);
+      }
+      if (approvale && !approvaleCertificate) {
+        setValidated(false);
+      }
+      if (needInsurance && !insuranceCopy) {
+        setValidated(false);
+      }
+      if (sirene && !sireneNumber) {
+        setValidated(false);
+      }
+
+      const newAssociation = {
+        lastName,
+        firstName,
+        email,
+        invalidEmail,
+        address,
+        powerDelegation,
+        associationStatutes,
+        interiorRules,
+        secondaryEstablishment,
+        associationName,
+        objectAssociation,
+        headOffice,
+        rnaNumber,
+        joafePublication,
+        alsaceMoselleLaw,
+        password,
+        invalidPassword,
+        confirmPassword,
+        noMatchPassword,
+        cgu,
+      };
+      console.log("file: inscription.js -> line 135 -> newAssociation", newAssociation);
       setValidated(false);
-      e.preventDefault();
       e.stopPropagation();
     } else {
-      const newVolunteer = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        birthday: birthday,
+      const newAssociation = {
+        lastName,
+        firstName,
+        email,
+        // address,
+        powerDelegation,
+        associationStatutes,
+        interiorRules,
+        secondaryEstablishment,
+        associationName,
+        objectAssociation,
+        headOffice,
+        rnaNumber,
+        joafePublication,
+        alsaceMoselleLaw,
+        password,
+        invalidPassword,
+        confirmPassword,
+        noMatchPassword,
+        cgu,
       };
-      const response = sendDate(newVolunteer);
+
+      if (publicUtility && publicUtilityNotification) {
+        newAssociation.publicUtility = publicUtility;
+        newAssociation.publicUtilityNotification = publicUtilityNotification;
+      } else {
+        newAssociation.publicUtility = publicUtility;
+      }
+      if (approvale && approvaleCertificate) {
+        newAssociation.approvale = approvale;
+        newAssociation.approvaleCertificate = approvaleCertificate;
+      } else {
+        newAssociation.approvale = approvale;
+      }
+      if (needInsurance && insuranceCopy) {
+        newAssociation.needInsurance = needInsurance;
+        newAssociation.insuranceCopy = insuranceCopy;
+      } else {
+        newAssociation.needInsurance = needInsurance;
+      }
+      if (sirene && sireneNumber) {
+        newAssociation.sirene = sirene;
+        newAssociation.sireneNumber = sireneNumber;
+      } else {
+        newAssociation.sirene = sirene;
+      }
+
+      console.log("file: inscription.js -> line 123 -> newAssociation", newAssociation);
+
+      const response = sendDate(newAssociation);
       console.log("file: resetInscription.js -> line 116 -> response", response);
     }
   };
@@ -125,120 +214,334 @@ function Inscription() {
       <div className={styles.register}>
         <div>
           <h2>Inscription</h2>
-          <h3>Bénévoles</h3>
+          <h3>Association</h3>
         </div>
 
         <form noValidate onSubmit={handleSubmit}>
           {!validated && (
-            <p className={styles.isInvalid}>Les champs en rouges doivent etres remplis et valide</p>
+            <p className={"isInvalid"}>Les champs en rouges doivent etres remplis et valide</p>
           )}
-          <label>Nom</label>
-          <input
-            required={false}
-            type="text"
-            placeholder="Nom"
-            defaultValue={lastName}
-            onChange={handleChangeLastName}
-            className={
-              !validated && lastName === "" ? styles.isInvalid : lastName ? styles.isValid : ""
-            }
-          />
+          <fieldset>
+            <legend>Identité du Gestionnaire</legend>
+            <TextInput
+              nameEn={"lastName"}
+              nameFR={"Nom"}
+              required={true}
+              stateName={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              validated={validated}
+            />
+            <TextInput
+              nameEn={"firstName"}
+              nameFR={"Prénom"}
+              required={true}
+              stateName={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              validated={validated}
+            />
+            <EmailInput
+              nameEn={"email"}
+              nameFR={"Adresse e-mail"}
+              required={true}
+              stateName={email}
+              onChange={handleChangeEmail}
+              validated={validated}
+              invalid={invalidEmail}
+            />
+            <TextInput
+              nameEn={"address"}
+              nameFR={"Adresse de l'association"}
+              required={true}
+              stateName={address}
+              onChange={(e) => setAddress(e.target.value)}
+              validated={validated}
+            />
+            <FileInput
+              nameEn={"powerDelegation"}
+              nameFR={"Délégation de pouvoir prévue à l'embauche"}
+              required={true}
+              stateName={powerDelegation}
+              validated={validated}
+              onChange={(e) => {
+                setPowerDelegation("");
 
-          <label>Prénom</label>
-          <input
-            required
-            type="text"
-            placeholder="Prénom"
-            defaultValue={firstName}
-            onChange={handleChangeFirstName}
-            className={
-              !validated && firstName === "" ? styles.isInvalid : firstName ? styles.isValid : ""
-            }
-          />
+                if (e.target.files[0].type === "application/pdf") {
+                  setPowerDelegation(e.target.files[0]);
+                } else {
+                  setPowerDelegation("invalid");
+                }
+              }}
+            />
+            <FileInput
+              nameEn={"associationStatutes"}
+              nameFR={"Statuts de l'association"}
+              required={true}
+              stateName={associationStatutes}
+              validated={validated}
+              onChange={(e) => {
+                if (e.target.files[0].type === "application/pdf") {
+                  setAssociationStatutes(e.target.files[0]);
+                }
+              }}
+            />
+            <FileInput
+              nameEn={"interiorRules"}
+              nameFR={"Règlement intérieur"}
+              required={true}
+              stateName={interiorRules}
+              validated={validated}
+              onChange={(e) => {
+                if (e.target.files[0].type === "application/pdf") {
+                  setInteriorRules(e.target.files[0]);
+                }
+              }}
+            />
+          </fieldset>
 
-          <label>Date de naissance</label>
-          <input
-            required
-            type="date"
-            defaultValue={birthday}
-            onBlur={checkBirthday}
-            className={
-              (!validated && birthday === "") || invalidBirthday
-                ? styles.isInvalid
-                : birthday && !invalidBirthday
-                ? styles.isValid
-                : ""
-            }
-          />
-          <p className={styles.info}>Pour vous inscrire vous devez avoir 16 ans ou plus</p>
-          {(!validated && birthday === "") ||
-            (invalidBirthday && <p className={styles.error}>Désolé vous êtes trops jeune 😔</p>)}
-
-          <label>Email</label>
-          <input
-            required
-            type="Adresse mail"
-            placeholder="Adresse mail"
-            defaultValue={email}
-            onChange={handleChangeEmail}
-            className={
-              (!validated && email === "") || invalidEmail
-                ? styles.isInvalid
-                : email && !invalidEmail
-                ? styles.isValid
-                : ""
-            }
-          />
-
-          <label>Mot de passe</label>
-          <input
-            required
-            type="text"
-            placeholder="Mot de passe"
-            defaultValue={password}
-            onChange={handleChangePassword}
-            className={
-              (!validated && password === "") || invalidPassword
-                ? styles.isInvalid
-                : password && !invalidPassword
-                ? styles.isValid
-                : ""
-            }
-          />
-          <p className={styles.info}>
-            Votre mot de passe doit comporter 8 caractères minimum, 1 majuscule, 1 minuscule, 1
-            chiffre et 1 caractère spécial.
-          </p>
-          {((!validated && password === "") || invalidPassword) && (
-            <p className={styles.error}>Entrer un mot de passe valide</p>
-          )}
-
-          <label>Confirmation du mot de passe</label>
-          <input
-            required
-            type="text"
-            placeholder="Mot de passe"
-            defaultValue={confirmPassword}
-            onChange={comparePassword}
-            className={
-              (!validated && confirmPassword === "") || (confirmPassword !== "" && !matchPassword)
-                ? styles.isInvalid
-                : confirmPassword && matchPassword
-                ? styles.isValid
-                : ""
-            }
-          />
-          {((!matchPassword && confirmPassword !== "") || (!matchPassword && !validated)) && (
-            <p className={styles.error}>Les mots de passes sont différents</p>
-          )}
-
-          <div className={styles.cgu}>
-            <input type="checkbox" required onChange={handleChangeCgu} defaultValue={cgu} />
-            <label className="">J'accepte les conditions d'utilisation</label>
-            {!cgu && !validated && (
-              <p className={styles.error}>Obligatoire pour valider l'inscription</p>
+          <fieldset>
+            <legend>Identité de l'association</legend>
+            <YesNoRadioInput
+              nameEn={"secondaryEstablishment"}
+              nameFR={"Etes-vous un etablissement secondaire"}
+              required={true}
+              stateName={secondaryEstablishment}
+              onChange={(e) => {
+                if (e.target.value === "yes") {
+                  setSecondaryEstablishment(true);
+                } else {
+                  setSecondaryEstablishment(false);
+                }
+              }}
+              validated={validated}
+              yesId={"secondaryEstablishmentYes"}
+              noId={"secondaryEstablishmentNo"}
+            />
+            <TextInput
+              nameEn={"associationName"}
+              nameFR={"Nom de l'association"}
+              required={true}
+              stateName={associationName}
+              onChange={(e) => setAssociationName(e.target.value)}
+              validated={validated}
+            />
+            <TextInput
+              nameEn={"objectAssociation"}
+              nameFR={"Objet"}
+              required={true}
+              stateName={objectAssociation}
+              onChange={(e) => setObjectAssociation(e.target.value)}
+              validated={validated}
+            />
+            <TextInput
+              nameEn={"headOffice"}
+              nameFR={"Siége Social"}
+              required={true}
+              stateName={headOffice}
+              onChange={(e) => setHeadOffice(e.target.value)}
+              validated={validated}
+            />
+            <TextInput
+              nameEn={"rnaNumber"}
+              nameFR={"Numéro RNA"}
+              required={true}
+              stateName={rnaNumber}
+              onChange={(e) => setRnaNumber(e.target.value)}
+              validated={validated}
+            />
+            <FileInput
+              nameEn={"joafePublication"}
+              nameFR={"Justificatifs de publication au Joafe"}
+              required={true}
+              stateName={joafePublication}
+              validated={validated}
+              onChange={(e) => {
+                if (e.target.files[0].type === "application/pdf") {
+                  setJoafePublication(e.target.files[0]);
+                }
+              }}
+            />
+            <YesNoRadioInput
+              nameEn={"publicUtility"}
+              nameFR={"Votre association est-elle reconnue d'utilité publique ?"}
+              required={true}
+              stateName={publicUtility}
+              onChange={(e) => {
+                if (e.target.value === "yes") {
+                  setPublicUtility(true);
+                } else {
+                  setPublicUtility(false);
+                }
+              }}
+              validated={validated}
+              yesId={"publicUtilityesYes"}
+              noId={"publicUtilityNo"}
+            />
+            {publicUtility && (
+              <FileInput
+                nameEn={"publicUtilityNotification"}
+                nameFR={"Notification d'utilité publique"}
+                required={false}
+                stateName={publicUtilityNotification}
+                validated={validated}
+                onChange={(e) => {
+                  if (e.target.files[0].type === "application/pdf") {
+                    setPublicUtilityNotification(e.target.files[0]);
+                  }
+                }}
+              />
             )}
-          </div>
+            <YesNoRadioInput
+              nameEn={"approvale"}
+              nameFR={"Beneficier vous d'un agrément ?"}
+              required={true}
+              stateName={approvale}
+              onChange={(e) => {
+                if (e.target.value === "yes") {
+                  setApprovale(true);
+                } else {
+                  setApprovale(false);
+                }
+              }}
+              validated={validated}
+              yesId={"approvaleYes"}
+              noId={"approvaleNo"}
+            />
+            {approvale && (
+              <FileInput
+                nameEn={"approvaleCertificate"}
+                nameFR={"Attestation d'agrément"}
+                required={false}
+                stateName={approvaleCertificate}
+                validated={validated}
+                onChange={(e) => {
+                  if (e.target.files[0].type === "application/pdf") {
+                    setApprovaleCertificate(e.target.files[0]);
+                  }
+                }}
+              />
+            )}
+            <YesNoRadioInput
+              nameEn={"needInsurance"}
+              nameFR={
+                "Votre associalation necessite t'elle une assurance pour pratiquer la nature de votre activiter ?"
+              }
+              required={true}
+              stateName={needInsurance}
+              onChange={(e) => {
+                if (e.target.value === "yes") {
+                  setNeedInsurance(true);
+                } else {
+                  setNeedInsurance(false);
+                }
+              }}
+              validated={validated}
+              yesId={"needInsuranceYes"}
+              noId={"needInsuranceNo"}
+            />
+            {needInsurance && (
+              <FileInput
+                nameEn={"insuranceCopy"}
+                nameFR={"Copie de votre assurance"}
+                required={false}
+                stateName={insuranceCopy}
+                validated={validated}
+                onChange={(e) => {
+                  if (e.target.files[0].type === "application/pdf") {
+                    setInsuranceCopy(e.target.files[0]);
+                  }
+                }}
+              />
+            )}
+            <YesNoRadioInput
+              nameEn={"sirene"}
+              nameFR={
+                'Votre association est-elle immatriculé au repertoire des entreprises et des etablissement "Sirene" ?'
+              }
+              required={true}
+              stateName={sirene}
+              onChange={(e) => {
+                if (e.target.value === "yes") {
+                  setSirene(true);
+                } else {
+                  setSirene(false);
+                }
+              }}
+              validated={validated}
+              yesId={"sireneYes"}
+              noId={"sireneNo"}
+            />
+            {sirene && (
+              <TextInput
+                nameEn={"sireneNumber"}
+                nameFR={"Numero Sirene"}
+                required={false}
+                stateName={sireneNumber}
+                onChange={(e) => setSireneNumber(e.target.value)}
+                validated={validated}
+              />
+            )}
+            <YesNoRadioInput
+              nameEn={"alsaceMoselleLaw"}
+              nameFR={"Votre assciation releve t'elle du droit local d'Alsace-Moselle ?"}
+              required={true}
+              stateName={alsaceMoselleLaw}
+              onChange={(e) => {
+                if (e.target.value === "yes") {
+                  setAlsaceMoselleLaw(true);
+                } else {
+                  setAlsaceMoselleLaw(false);
+                }
+              }}
+              validated={validated}
+              yesId={"alsaceMoselleLawYes"}
+              noId={"alsaceMoselleLawYesNo"}
+            />
+          </fieldset>
+          <fieldset>
+            <legend>Information Complémenatire</legend>
+            <PasswordInput
+              nameEn={"password"}
+              nameFR={"Mot de passe"}
+              required={true}
+              stateName={password}
+              onChange={handleChangePassword}
+              validated={validated}
+              invalid={invalidPassword}
+            />
+            <p className="info">
+              Votre mot de passe doit comporter 8 caractères minimum, 1 majuscule, 1 minuscule, 1
+              chiffre et 1 caractère spécial.
+            </p>
+            <PasswordInput
+              nameEn={"confirmPassword"}
+              nameFR={"Confirmation du mot de passe"}
+              required={true}
+              stateName={confirmPassword}
+              onChange={comparePassword}
+              validated={validated}
+              invalid={noMatchPassword}
+            />
+
+            {((!validated && confirmPassword === "") || noMatchPassword) && (
+              <p className="error">Les mots de passes sont différents</p>
+            )}
+
+            <div className={styles.cgu}>
+              <input
+                type="checkbox"
+                required
+                onChange={(e) => {
+                  setCgu(!cgu);
+                }}
+                defaultValue={cgu}
+              />
+              <label>J'accepte les conditions d'utilisation</label>
+              {!cgu && !validated && <p className="error">Requis</p>}
+            </div>
+          </fieldset>
+          {!validated && (
+            <p className={"isInvalid"}>Les champs en rouges doivent etres remplis et valide</p>
+          )}
           <div>
             <ButtonCustom name={"Inscription"} type={"submit"} />
           </div>

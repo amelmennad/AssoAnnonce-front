@@ -16,6 +16,7 @@ function Inscription() {
   const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState("");
   const [powerDelegation, setPowerDelegation] = useState("");
+  const [powerDelegationFile, setPowerDelegationFile] = useState("");
   const [associationStatutes, setAssociationStatutes] = useState("");
   const [interiorRules, setInteriorRules] = useState("");
   const [secondaryEstablishment, setSecondaryEstablishment] = useState(false);
@@ -67,6 +68,14 @@ function Inscription() {
     }
   };
 
+  const fileUrl = (e) => {
+    return {
+      name: e.target.files[0].name,
+      size: e.target.files[0].size,
+      type: e.target.files[0].type,
+      path: URL.createObjectURL(e.target.files[0]),
+    };
+  };
   const comparePassword = (e) => {
     setConfirmPassword(e.target.value);
     setNoMatchPassword(false);
@@ -79,11 +88,16 @@ function Inscription() {
     }
   };
 
-  const sendDate = async (data) => {
+  const sendDate = async (formData) => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/register`,
-        data
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       console.log("file: inscription.js -> line 88 -> response", response);
       // router.push("/");
@@ -129,83 +143,113 @@ function Inscription() {
         setValidated(false);
       }
 
-      const newAssociation = {
-        lastName,
-        firstName,
-        email,
-        invalidEmail,
-        address,
-        powerDelegation,
-        associationStatutes,
-        interiorRules,
-        secondaryEstablishment,
-        associationName,
-        objectAssociation,
-        headOffice,
-        rnaNumber,
-        joafePublication,
-        alsaceMoselleLaw,
-        password,
-        invalidPassword,
-        confirmPassword,
-        noMatchPassword,
-        cgu,
-      };
-      console.log("file: inscription.js -> line 135 -> newAssociation", newAssociation);
+      // const newAssociation = {
+      //   lastName,
+      //   firstName,
+      //   email,
+      //   invalidEmail,
+      //   address,
+      //   powerDelegation,
+      //   associationStatutes,
+      //   interiorRules,
+      //   secondaryEstablishment,
+      //   associationName,
+      //   objectAssociation,
+      //   headOffice,
+      //   rnaNumber,
+      //   joafePublication,
+      //   alsaceMoselleLaw,
+      //   password,
+      //   invalidPassword,
+      //   confirmPassword,
+      //   noMatchPassword,
+      //   cgu,
+      // };
+      // console.log("file: inscription.js -> line 135 -> newAssociation", newAssociation);
       setValidated(false);
       e.stopPropagation();
     } else {
-      const newAssociation = {
-        lastName,
-        firstName,
-        email,
-        // address,
-        powerDelegation,
-        associationStatutes,
-        interiorRules,
-        secondaryEstablishment,
-        associationName,
-        objectAssociation,
-        headOffice,
-        rnaNumber,
-        joafePublication,
-        alsaceMoselleLaw,
-        password,
-        invalidPassword,
-        confirmPassword,
-        noMatchPassword,
-        cgu,
-      };
+      // const newAssociation = {
+      //   lastName,
+      //   firstName,
+      //   email,
+      //   // address,
+      //   powerDelegation,
+      //   associationStatutes,
+      //   interiorRules,
+      //   secondaryEstablishment,
+      //   associationName,
+      //   objectAssociation,
+      //   headOffice,
+      //   rnaNumber,
+      //   joafePublication,
+      //   alsaceMoselleLaw,
+      //   password,
+      //   cgu,
+      // };
+
+      const formData = new FormData();
+      formData.append("lastName", lastName);
+      formData.append("firstName", firstName);
+      formData.append("email", email);
+      formData.append("address", address);
+      formData.append("powerDelegation", powerDelegation);
+      formData.append("associationStatutes", associationStatutes);
+      formData.append("interiorRules", interiorRules);
+      formData.append("secondaryEstablishment", secondaryEstablishment);
+      formData.append("associationName", associationName);
+      formData.append("objectAssociation", objectAssociation);
+      formData.append("headOffice", headOffice);
+      formData.append("rnaNumber", rnaNumber);
+      formData.append("joafePublication", joafePublication);
+      formData.append("alsaceMoselleLaw", alsaceMoselleLaw);
+      formData.append("password", password);
+      formData.append("cgu", cgu);
 
       if (publicUtility && publicUtilityNotification) {
-        newAssociation.publicUtility = publicUtility;
-        newAssociation.publicUtilityNotification = publicUtilityNotification;
+        // newAssociation.publicUtility = publicUtility;
+        // newAssociation.publicUtilityNotification = publicUtilityNotification;
+
+        formData.append("publicUtility", publicUtility);
+        formData.append("publicUtilityNotification", publicUtilityNotification);
       } else {
-        newAssociation.publicUtility = publicUtility;
+        // newAssociation.publicUtility = publicUtility;
+        formData.append("publicUtility", publicUtility);
       }
       if (approvale && approvaleCertificate) {
-        newAssociation.approvale = approvale;
-        newAssociation.approvaleCertificate = approvaleCertificate;
+        // newAssociation.approvale = approvale;
+        // newAssociation.approvaleCertificate = approvaleCertificate;
+
+        formData.append("approvale", approvale);
+        formData.append("approvaleCertificate", approvaleCertificate);
       } else {
-        newAssociation.approvale = approvale;
+        // newAssociation.approvale = approvale;
+        formData.append("approvale", approvale);
       }
       if (needInsurance && insuranceCopy) {
-        newAssociation.needInsurance = needInsurance;
-        newAssociation.insuranceCopy = insuranceCopy;
+        // newAssociation.needInsurance = needInsurance;
+        // newAssociation.insuranceCopy = insuranceCopy;
+
+        formData.append("needInsurance", needInsurance);
+        formData.append("insuranceCopy", insuranceCopy);
       } else {
-        newAssociation.needInsurance = needInsurance;
+        formData.append("needInsurance", needInsurance);
       }
       if (sirene && sireneNumber) {
-        newAssociation.sirene = sirene;
-        newAssociation.sireneNumber = sireneNumber;
+        // newAssociation.sirene = sirene;
+        // newAssociation.sireneNumber = sireneNumber;
+
+        formData.append("sirene", sirene);
+        formData.append("sireneNumber", sireneNumber);
       } else {
-        newAssociation.sirene = sirene;
+        // newAssociation.sirene = sirene;
+        formData.append("sirene", sirene);
       }
 
-      console.log("file: inscription.js -> line 123 -> newAssociation", newAssociation);
+      console.log("file: inscription.js -> line 123 -> newAssociation", formData);
 
-      const response = sendDate(newAssociation);
-      console.log("file: resetInscription.js -> line 116 -> response", response);
+      const response = sendDate(formData);
+      // console.log("file: resetInscription.js -> line 116 -> response", response);
     }
   };
 
@@ -263,10 +307,11 @@ function Inscription() {
               stateName={powerDelegation}
               validated={validated}
               onChange={(e) => {
-                setPowerDelegation("");
-
+                // setPowerDelegation("");
+                console.log(e.target.files[0]);
                 if (e.target.files[0].type === "application/pdf") {
                   setPowerDelegation(e.target.files[0]);
+                  // setPowerDelegation(fileUrl(e));
                 } else {
                   setPowerDelegation("invalid");
                 }
@@ -281,6 +326,9 @@ function Inscription() {
               onChange={(e) => {
                 if (e.target.files[0].type === "application/pdf") {
                   setAssociationStatutes(e.target.files[0]);
+                  // setAssociationStatutes(fileUrl(e));
+                } else {
+                  setAssociationStatutes("invalid");
                 }
               }}
             />
@@ -293,6 +341,9 @@ function Inscription() {
               onChange={(e) => {
                 if (e.target.files[0].type === "application/pdf") {
                   setInteriorRules(e.target.files[0]);
+                  // setInteriorRules(fileUrl(e));
+                } else {
+                  setInteriorRules("invalid");
                 }
               }}
             />
@@ -357,6 +408,9 @@ function Inscription() {
               onChange={(e) => {
                 if (e.target.files[0].type === "application/pdf") {
                   setJoafePublication(e.target.files[0]);
+                  // setJoafePublication(fileUrl(e));
+                } else {
+                  setJoafePublication("invalid");
                 }
               }}
             />

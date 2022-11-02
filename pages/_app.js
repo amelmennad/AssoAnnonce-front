@@ -5,11 +5,13 @@ import { AppWrapper } from "../context/AppContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AppWrapper>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AppWrapper>
+    <>
+      <AppWrapper>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AppWrapper>
+    </>
   );
 }
 

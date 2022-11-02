@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "extends": ["airbnb-base", "prettier", "next"],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "ignorePatterns": ["**/build"],
+  "plugins": ["prettier", "jest"],
+  "rules": {
+    "no-console": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
+  }
+}

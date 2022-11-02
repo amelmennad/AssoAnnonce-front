@@ -9,7 +9,7 @@ import EmailInput from "component/Input/EmailInput";
 import PasswordInput from "component/Input/PasswordInput";
 import Button from "../component/Button/Button";
 
-export default function connexion() {
+export default function Identification() {
   const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -113,7 +113,7 @@ export default function connexion() {
           </form>
         </div>
         <div className={styles.register}>
-          <h2>S'inscrire</h2>
+          <h2>S&apos;inscrire</h2>
 
           <Button type="button" name={"Créer un compte Bénévole"} href={"/benevole/inscription"} />
           <Button

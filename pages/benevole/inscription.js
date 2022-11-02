@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-
+import Link from "next/link";
 import ButtonCustom from "component/Button/Button";
 import PageContainer from "component/PageContainer/PageContainer";
 import TextInput from "component/Input/textInput";
@@ -241,9 +241,9 @@ function Inscription() {
                 onChange={handleChangeCgu}
                 defaultValue={cgu}
               />
-              <label htmlFor="cgu">J'accepte les conditions d'utilisation</label>
+              <label htmlFor="cgu">J&apos;accepte les conditions d&apos;utilisation</label>
               {!cgu && !validated && (
-                <p className="error">Obligatoire pour valider l'inscription</p>
+                <p className="error">Obligatoire pour valider l&apos;inscription</p>
               )}
             </div>
             <div className="btn">

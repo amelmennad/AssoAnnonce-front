@@ -306,7 +306,7 @@ function Inscription() {
             </fieldset>
 
             <fieldset>
-              <legend>Identité de l'association</legend>
+              <legend>Identité de l&apos;association</legend>
               <YesNoRadioInput
                 nameEn={"secondaryEstablishment"}
                 nameFR={"Etes-vous un etablissement secondaire"}
@@ -546,7 +546,7 @@ function Inscription() {
                   }}
                   defaultValue={cgu}
                 />
-                <label htmlFor="cgu">J'accepte les conditions d'utilisation</label>
+                <label htmlFor="cgu">J&apos;accepte les conditions d&apos;utilisation</label>
                 {!cgu && !validated && <p className="error">Requis</p>}
               </div>
             </fieldset>

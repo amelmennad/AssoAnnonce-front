@@ -111,7 +111,7 @@ function Inscription() {
         router.push("/association/profil");
       }
     } catch (error) {
-      // setDataExist(true);
+      setDataExist(true);
     }
   };
 

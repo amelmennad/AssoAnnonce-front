@@ -1,12 +1,15 @@
 import Layout from 'component/Layout/Layout';
 import '../styles/globals.scss';
-import '../styles/bootstrapCutomColor.scss';
+
+import { AppWrapper } from "../context/AppContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <AppWrapper>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AppWrapper>
   );
 }
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import ButtonCustom from "component/Button/Button";
 import PageContainer from "component/PageContainer/PageContainer";
-import TextInput from "component/Input/textInput";
+import TextInput from "component/Input/TextInput";
 import PasswordInput from "component/Input/PasswordInput";
 import EmailInput from "component/Input/EmailInput";
 import Loading from "component/Loading/Loading";

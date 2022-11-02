@@ -1,12 +1,12 @@
 import React from 'react'
+import styles from './PageContainer.module.scss';
 
 export default function PageContainer({ children }) {
   return (
-    <section className='container d-flex flex-column'>
-      <div className='card p-5'>
+    <section className={styles.section}>
+      <div className={styles.content}>
         {children}
       </div>
     </section>
-
   )
 }

@@ -1,0 +1,17 @@
+
+@import '../../styles/_colorTheme.scss';
+
+.button {
+    width: 300px;
+    padding: 10px;
+    background-color: #fff;
+    border: solid 1px $primary;
+    border-radius: 5px;
+    color: $primary;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $primary;
+        color: #fff;
+    }
+}

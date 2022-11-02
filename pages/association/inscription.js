@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 import styles from "../../styles/Register.module.scss";
-import TextInput from "component/Input/textInput";
+import TextInput from "component/Input/TextInput";
 import FileInput from "component/Input/FileInput";
-import YesNoRadioInput from "component/Input/yesNoRadioInput";
+import YesNoRadioInput from "component/Input/YesNoRadioInput";
 import PasswordInput from "component/Input/PasswordInput";
 import EmailInput from "component/Input/EmailInput";
 import Loading from "component/Loading/Loading";
@@ -306,7 +306,7 @@ function Inscription() {
             </fieldset>
 
             <fieldset>
-              <legend>Identité de l'association</legend>
+              <legend>Identité de l&apos;association</legend>
               <YesNoRadioInput
                 nameEn={"secondaryEstablishment"}
                 nameFR={"Etes-vous un etablissement secondaire"}
@@ -546,7 +546,7 @@ function Inscription() {
                   }}
                   defaultValue={cgu}
                 />
-                <label htmlFor="cgu">J'accepte les conditions d'utilisation</label>
+                <label htmlFor="cgu">J&apos;accepte les conditions d&apos;utilisation</label>
                 {!cgu && !validated && <p className="error">Requis</p>}
               </div>
             </fieldset>

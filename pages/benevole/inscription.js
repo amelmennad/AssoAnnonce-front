@@ -7,6 +7,7 @@ import PageContainer from "component/PageContainer/PageContainer";
 import TextInput from "component/Input/textInput";
 import PasswordInput from "component/Input/PasswordInput";
 import EmailInput from "component/Input/EmailInput";
+import Loading from "component/Loading/Loading";
 
 import styles from "../../styles/Register.module.scss";
 
@@ -23,14 +24,14 @@ function Inscription() {
   console.log("file: inscription.js -> line 23 -> password", password);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
-  console.log("file: inscription.js -> line 25 -> confirmPassword", confirmPassword);
-  const [matchPassword, setMatchPassword] = useState(false);
-  console.log("file: inscription.js -> line 27 -> matchPassword", matchPassword);
-
+  const [noMatchPassword, setNoMatchPassword] = useState(false);
   const [cgu, setCgu] = useState(false);
 
   const [validated, setValidated] = useState(true);
+  const [dataExist, setDataExist] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState({});
 
   const checkBirthday = (e) => {
     const diff = new Date(Date.now() - new Date(e.target.value).getTime());
@@ -69,8 +70,13 @@ function Inscription() {
 
   const comparePassword = (e) => {
     setConfirmPassword(e.target.value);
+    setNoMatchPassword(false);
+
+    if (password !== e.target.value) {
+      setNoMatchPassword(true);
+    }
     if (password === e.target.value) {
-      setMatchPassword(true);
+      setNoMatchPassword(false);
     }
   };
 
@@ -84,11 +90,13 @@ function Inscription() {
         `${process.env.NEXT_PUBLIC_BACKEND_API}/api/volunteer/register`,
         data
       );
-      console.log("file: inscription.js -> line 82 -> response", response.data);
-      router.push("/benevole/profil");
+      setIsLoading(true);
+      setData(response.data);
+      if (data) {
+        router.push("/benevole/profil");
+      }
     } catch (error) {
-      console.log("file: inscription.js -> line 87 -> error", error);
-      console.log("file: inscription.js -> line 87 -> error", error.response.data);
+      setDataExist(true);
     }
   };
 
@@ -105,10 +113,9 @@ function Inscription() {
       !password ||
       invalidPassword ||
       !confirmPassword ||
-      !matchPassword ||
+      noMatchPassword ||
       !cgu
     ) {
-      console.log("titi");
       setValidated(false);
       e.preventDefault();
       e.stopPropagation();
@@ -128,100 +135,123 @@ function Inscription() {
 
   return (
     <PageContainer>
-      <div className={styles.register}>
-        <div>
-          <h2>Inscription</h2>
-          <h3>Bénévoles</h3>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className={styles.register}>
+          <div>
+            <h2>Inscription</h2>
+            <h3>Bénévoles</h3>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            {!validated && (
+              <p className="isInvalid">Les champs en rouges doivent etres remplis et valide</p>
+            )}
+            {dataExist && (
+              <p className={"isInvalid"}>
+                Inscription impossible essayez de vous
+                <span>
+                  <Link href="/identification">
+                    <a> connecter</a>
+                  </Link>
+                </span>
+              </p>
+            )}
+            <TextInput
+              nameEn={"lastName"}
+              nameFR={"Nom"}
+              required={true}
+              stateName={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              validated={validated}
+            />
+            <TextInput
+              nameEn={"firstName"}
+              nameFR={"Prénom"}
+              required={true}
+              stateName={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              validated={validated}
+            />
+
+            <label>Date de naissance</label>
+            <input
+              required
+              type="date"
+              defaultValue={birthday}
+              onBlur={checkBirthday}
+              className={
+                (!validated && birthday === "") || invalidBirthday
+                  ? "isInvalid"
+                  : birthday && !invalidBirthday
+                  ? "isValid"
+                  : ""
+              }
+            />
+            <p className="info">Pour vous inscrire vous devez avoir 16 ans ou plus</p>
+            {(!validated && birthday === "") ||
+              (invalidBirthday && <p className="error">Désolé vous êtes trops jeune 😔</p>)}
+
+            <EmailInput
+              nameEn={"email"}
+              nameFR={"Adresse e-mail"}
+              required={true}
+              stateName={email}
+              onChange={handleChangeEmail}
+              validated={validated}
+              invalid={invalidEmail}
+            />
+
+            <PasswordInput
+              nameEn={"password"}
+              nameFR={"Mot de passe"}
+              required={true}
+              stateName={password}
+              onChange={handleChangePassword}
+              validated={validated}
+              invalid={invalidPassword}
+            />
+            <p className="info">
+              Votre mot de passe doit comporter 8 caractères minimum, 1 majuscule, 1 minuscule, 1
+              chiffre et 1 caractère spécial.
+            </p>
+            {((!validated && password === "") || invalidPassword) && (
+              <p className="error">Entrer un mot de passe valide</p>
+            )}
+            <PasswordInput
+              nameEn={"confirmPassword"}
+              nameFR={"Confirmation du mot de passe"}
+              required={true}
+              stateName={confirmPassword}
+              onChange={comparePassword}
+              validated={validated}
+              invalid={noMatchPassword}
+            />
+
+            {((!validated && confirmPassword === "") || noMatchPassword) && (
+              <p className="error">Les mots de passes sont différents</p>
+            )}
+
+            <div className={styles.cgu}>
+              <input
+                id="cgu"
+                type="checkbox"
+                required
+                onChange={handleChangeCgu}
+                defaultValue={cgu}
+              />
+              <label htmlFor="cgu">J'accepte les conditions d'utilisation</label>
+              {!cgu && !validated && (
+                <p className="error">Obligatoire pour valider l'inscription</p>
+              )}
+            </div>
+            <div className="btn">
+              <ButtonCustom name={"Inscription"} type={"submit"} />
+            </div>
+          </form>
         </div>
-
-        <form onSubmit={handleSubmit}>
-          {!validated && (
-            <p className="isInvalid">Les champs en rouges doivent etres remplis et valide</p>
-          )}
-          <TextInput
-            nameEn={"lastName"}
-            nameFR={"Nom"}
-            required={true}
-            stateName={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            validated={validated}
-          />
-          <TextInput
-            nameEn={"firstName"}
-            nameFR={"Prénom"}
-            required={true}
-            stateName={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            validated={validated}
-          />
-
-          <label>Date de naissance</label>
-          <input
-            required
-            type="date"
-            defaultValue={birthday}
-            onBlur={checkBirthday}
-            className={
-              (!validated && birthday === "") || invalidBirthday
-                ? "isInvalid"
-                : birthday && !invalidBirthday
-                ? "isValid"
-                : ""
-            }
-          />
-          <p className="info">Pour vous inscrire vous devez avoir 16 ans ou plus</p>
-          {(!validated && birthday === "") ||
-            (invalidBirthday && <p className="error">Désolé vous êtes trops jeune 😔</p>)}
-
-          <EmailInput
-            nameEn={"email"}
-            nameFR={"Adresse e-mail"}
-            required={true}
-            stateName={email}
-            onChange={handleChangeEmail}
-            validated={validated}
-            invalid={invalidEmail}
-          />
-
-          <PasswordInput
-            nameEn={"password"}
-            nameFR={"Mot de passe"}
-            required={true}
-            stateName={password}
-            onChange={handleChangePassword}
-            validated={validated}
-            invalid={invalidPassword}
-          />
-          <p className="info">
-            Votre mot de passe doit comporter 8 caractères minimum, 1 majuscule, 1 minuscule, 1
-            chiffre et 1 caractère spécial.
-          </p>
-          {((!validated && password === "") || invalidPassword) && (
-            <p className="error">Entrer un mot de passe valide</p>
-          )}
-          <PasswordInput
-            nameEn={"confirmPassword"}
-            nameFR={"Confirmation du mot de passe"}
-            required={true}
-            stateName={confirmPassword}
-            onChange={comparePassword}
-            validated={validated}
-            invalid={confirmPassword}
-          />
-          {((!matchPassword && confirmPassword !== "") || (!matchPassword && !validated)) && (
-            <p className="error">Les mots de passes sont différents</p>
-          )}
-
-          <div className={styles.cgu}>
-            <input type="checkbox" required onChange={handleChangeCgu} defaultValue={cgu} />
-            <label className="">J'accepte les conditions d'utilisation</label>
-            {!cgu && !validated && <p className="error">Obligatoire pour valider l'inscription</p>}
-          </div>
-          <div className="btn">
-            <ButtonCustom name={"Inscription"} type={"submit"} />
-          </div>
-        </form>
-      </div>
+      )}
     </PageContainer>
   );
 }

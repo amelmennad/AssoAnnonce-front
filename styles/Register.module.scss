@@ -21,6 +21,10 @@
     input {
         margin-bottom: 0.8rem;
     }
+    p > span > a {
+        text-decoration: none;
+        font-weight: 600;
+    }
     .cgu {
         label {
             margin-left: 15px;

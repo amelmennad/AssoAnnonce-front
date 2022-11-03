@@ -1,0 +1,46 @@
+@import "../styles/colorTheme";
+
+.identification {
+    display: flex;
+
+    .login,
+    .register {
+        width: 50%;
+    }
+
+    .login {
+        padding: 2rem;
+        
+        .btn {
+            width: 300px;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+    }
+    .register {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}
+
+@media (max-width: 961px) {
+    .identification {
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+        .login,
+        .register {
+            width: 100%;
+        }
+    .register {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}
+}

@@ -5,7 +5,7 @@
     fieldset {
         display: flex;
         flex-direction: column;
-
+        border: none;
         legend {
             color: $warning;
             font-size: 1.3rem;

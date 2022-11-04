@@ -2,7 +2,8 @@
 @import '../../styles/_colorTheme.scss';
 
 .button {
-    width: 300px;
+    width: max-content;
+    min-width: 100px;
     margin: 0 auto;
     padding: 10px;
     background-color: #fff;

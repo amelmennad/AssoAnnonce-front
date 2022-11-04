@@ -1,0 +1,35 @@
+@import "../../styles/_colorTheme.scss";
+.mission {
+    display: flex;
+    section:first-child {
+        width: 25%;
+    }
+    section:last-child {
+        width: 65%;
+    }
+    textarea {
+        margin-bottom: 25px;
+        padding: 15px 7.5px;
+        border: 1px solid $grey;
+        border-radius: 0.375rem;
+
+        &:focus {
+            outline: none;
+            border: 1px solid $secondary;
+        }
+    }    
+}
+.ourMissions {
+    border-bottom: 1px solid $grey;
+    padding-bottom: 1rem;
+    &:last-child{
+        border: none;
+    }
+    h4 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: $darkSecondary;
+    }
+    
+}
+

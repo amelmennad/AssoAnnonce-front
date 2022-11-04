@@ -20,19 +20,11 @@ export default function NavbarCustom() {
       </div>
       <div>
         <Link href="/identification">
-          <a>S'inscrire | Se connecter</a>
+          <a>S&apos;inscrire | Se connecter</a>
         </Link>
-        {/* <Link href='/inscription'>
-            <a>Inscription</a>
-          </Link>
-          <Link href='/connexion'>
-            <a>Connexion</a>
-          </Link> */}
-        {/* <Link href=''>
-            <a>
-              <CgProfile />
-            </a>
-          </Link> */}
+        <Link href="/association/ajouter-mission">
+          <a>Ajouter une annonce</a>
+        </Link>
       </div>
     </nav>
   );

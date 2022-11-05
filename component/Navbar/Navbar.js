@@ -2,8 +2,9 @@ import styles from "./Navbar.module.scss";
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiHomeSmile } from "react-icons/bi";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { GrAddCircle } from "react-icons/gr";
 import { useState, useEffect } from "react";
 
 function useWindowSize() {

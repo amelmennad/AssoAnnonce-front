@@ -4,13 +4,14 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
-import styles from "../../styles/Register.module.scss";
+import styles from "../../styles/Inscription.module.scss";
 import TextInput from "component/Input/TextInput";
 import FileInput from "component/Input/FileInput";
 import YesNoRadioInput from "component/Input/YesNoRadioInput";
 import PasswordInput from "component/Input/PasswordInput";
 import EmailInput from "component/Input/EmailInput";
 import Loading from "component/Loading/Loading";
+import CheckboxInput from "component/Input/CheckboxInput";
 
 function Inscription() {
   const [lastName, setLastName] = useState("");
@@ -536,19 +537,17 @@ function Inscription() {
                 <p className="error">Les mots de passes sont différents</p>
               )}
 
-              <div className={styles.cgu}>
-                <input
-                  id="cgu"
-                  type="checkbox"
-                  required
-                  onChange={(e) => {
-                    setCgu(!cgu);
-                  }}
-                  defaultValue={cgu}
-                />
-                <label htmlFor="cgu">J&apos;accepte les conditions d&apos;utilisation</label>
-                {!cgu && !validated && <p className="error">Requis</p>}
-              </div>
+              <CheckboxInput
+                nameEn={"cgu"}
+                nameFR={"J'accepte les conditions d'utilisation"}
+                required={true}
+                stateName={cgu}
+                onChange={(e) => {
+                  setCgu(!cgu);
+                }}
+                validated={validated}
+              />
+              {!cgu && !validated && <p className="error">Requis</p>}
             </fieldset>
             {!validated && (
               <p className={"isInvalid"}>Les champs en rouges doivent etres remplis et valide</p>
@@ -563,7 +562,7 @@ function Inscription() {
                 </span>
               </p>
             )}
-            <div>
+            <div className={styles.btn}>
               <ButtonCustom name={"Inscription"} type={"submit"} />
             </div>
           </form>

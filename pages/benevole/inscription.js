@@ -9,7 +9,9 @@ import PasswordInput from "component/Input/PasswordInput";
 import EmailInput from "component/Input/EmailInput";
 import Loading from "component/Loading/Loading";
 
-import styles from "../../styles/Register.module.scss";
+import styles from "../../styles/Inscription.module.scss";
+import CheckboxInput from "component/Input/CheckboxInput";
+import DateInput from "component/Input/DateInput";
 
 function Inscription() {
   const router = useRouter();
@@ -174,25 +176,18 @@ function Inscription() {
               onChange={(e) => setFirstName(e.target.value)}
               validated={validated}
             />
-
-            <label>Date de naissance</label>
-            <input
-              required
-              type="date"
-              defaultValue={birthday}
+            <DateInput
+              nameEn={"birthday"}
+              nameFR={"Date de naissance"}
+              required={true}
+              stateName={birthday}
               onBlur={checkBirthday}
-              className={
-                (!validated && birthday === "") || invalidBirthday
-                  ? "isInvalid"
-                  : birthday && !invalidBirthday
-                  ? "isValid"
-                  : ""
-              }
+              validated={validated}
+              invalid={invalidBirthday}
             />
             <p className="info">Pour vous inscrire vous devez avoir 16 ans ou plus</p>
             {(!validated && birthday === "") ||
               (invalidBirthday && <p className="error">Désolé vous êtes trops jeune 😔</p>)}
-
             <EmailInput
               nameEn={"email"}
               nameFR={"Adresse e-mail"}
@@ -202,7 +197,6 @@ function Inscription() {
               validated={validated}
               invalid={invalidEmail}
             />
-
             <PasswordInput
               nameEn={"password"}
               nameFR={"Mot de passe"}
@@ -228,25 +222,23 @@ function Inscription() {
               validated={validated}
               invalid={noMatchPassword}
             />
-
             {((!validated && confirmPassword === "") || noMatchPassword) && (
               <p className="error">Les mots de passes sont différents</p>
             )}
-
-            <div className={styles.cgu}>
-              <input
-                id="cgu"
-                type="checkbox"
-                required
-                onChange={handleChangeCgu}
-                defaultValue={cgu}
-              />
-              <label htmlFor="cgu">J&apos;accepte les conditions d&apos;utilisation</label>
-              {!cgu && !validated && (
-                <p className="error">Obligatoire pour valider l&apos;inscription</p>
-              )}
-            </div>
-            <div className="btn">
+            <CheckboxInput
+              nameEn={"cgu"}
+              nameFR={"J'accepte les conditions d'utilisation"}
+              required={true}
+              stateName={cgu}
+              onChange={(e) => {
+                setCgu(!cgu);
+              }}
+              validated={validated}
+            />
+            {!cgu && !validated && (
+              <p className="error">Obligatoire pour valider l&apos;inscription</p>
+            )}
+            <div className={styles.btn}>
               <ButtonCustom name={"Inscription"} type={"submit"} />
             </div>
           </form>

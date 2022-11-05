@@ -10,7 +10,7 @@
 }
 
 .content {
-    padding: 3rem !important;
+    padding: 3rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -24,6 +24,6 @@
 }
 @media (max-width: 600px) {
 .content {
-    padding: 1rem;
+    padding: 1.5rem;
 
 }}

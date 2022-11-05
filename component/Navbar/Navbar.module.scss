@@ -23,22 +23,19 @@
             }
         }
     }
-    .divHamburgerMenu {
-        .divHamburgerMenu {
-            width: max-content;
-            cursor: pointer;
-            &:hover {
-                color: $info;
-            }
-        }
-    }
+    
 }
 
 @media (max-width: 961px) {
     .navbar {
-        .divHamburgerMenu {
+       
+         .divHamburgerMenu  {
             display: flex;
             justify-content: flex-end;
+            cursor: pointer;
+            &:hover {
+                color: $info;
+            }
         }
         .divMenu {
             display: flex;

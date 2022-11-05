@@ -238,7 +238,7 @@ function Inscription() {
             {!cgu && !validated && (
               <p className="error">Obligatoire pour valider l&apos;inscription</p>
             )}
-            <div className={styles.btn}>
+            <div className="btn">
               <ButtonCustom name={"Inscription"} type={"submit"} />
             </div>
           </form>

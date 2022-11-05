@@ -123,6 +123,16 @@ form {
 .btn {
   margin: 10px auto 0 auto;
 }
+@media (max-width: 600px) {
+   label {
+     max-width: max-content;
+  }
+  input {
+     width: 90%;
+
+}}
+
+
 
 // @media (prefers-color-scheme: dark) {
 //   html {

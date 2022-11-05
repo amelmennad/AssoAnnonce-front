@@ -37,63 +37,20 @@ function useWindowSize() {
 
 export default function NavbarCustom() {
   const router = useRouter();
-  const [visibilityHamburgerMenu, setVisibilityHamburgerMenu] = useState(false);
-  const [visibilityMenu, setVisibilityMenu] = useState(false);
-  const [currentPath, setCurrentPath] = useState();
   const [isMenuOpen, setMenuOpen] = useState(false);
-
   const screenWidth = useWindowSize().width;
-
-  const isVisibleHamburgerMenu = () => {
-    setVisibilityHamburgerMenu(true);
-    setVisibilityMenu(false);
-  };
-
-  const isVisibleMenu = () => {
-    setVisibilityHamburgerMenu(false);
-    setVisibilityMenu(true);
-  };
-
-  useEffect(() => {
-    if (screenWidth > 961) {
-      isVisibleMenu();
-    } else {
-      isVisibleHamburgerMenu();
-    }
-  }, [screenWidth]);
-
   useEffect(() => {
     if (isMenuOpen) {
       setMenuOpen(!isMenuOpen);
     }
   }, [router.asPath]);
-  // useEffect(() => {
-  //   if (router.asPath != currentPath) {
-  // setCurrentPath(router.asPath);
-  //     setVisibilityHamburgerMenu(true);
-  //     setVisibilityMenu(false); //     isVisibleHamburgerMenu();
-  //     //     console.log("file: Navbar.js -> line 70 -> newCurrentPath", newCurrentPath);
-  //   }
-
-  //   console.log("file: Navbar.js -> line 43 -> currentPath", currentPath);
-  //   console.log("file: Navbar.js -> line 43 -> router.asPath", router.asPath);
-  //   // console.log("file: Navbar.js -> line 68 -> newCurrentPath", newCurrentPath);
-  //   //   if (router.asPath != currentPath) {
-  //   //     isVisibleHamburgerMenu();
-
-  //   //     console.log("file: Navbar.js -> line 70 -> newCurrentPath", newCurrentPath);
-  //   //     // setCurrentPath(newCurrentPath);
-  //   //   }
-  // }, [router.asPath]);
 
   return (
     <nav className={styles.navbar + " sticky-top"}>
-      {!isMenuOpen ? (
+      {screenWidth < 961 && !isMenuOpen ? (
         <div className={styles.divHamburgerMenu}>
           <div
-            className={styles.divHamburgerMenu}
             onClick={(e) => {
-              isVisibleMenu();
               setMenuOpen(true);
             }}
           >
@@ -106,8 +63,6 @@ export default function NavbarCustom() {
             <div
               className={styles.divCloseMenu}
               onClick={(e) => {
-                setVisibilityHamburgerMenu(true);
-                setVisibilityMenu(false);
                 setMenuOpen(false);
               }}
             >

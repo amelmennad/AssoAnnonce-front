@@ -1,0 +1,41 @@
+@import "./colorTheme";
+
+.AddMissionForm {
+    .checkbox {
+        label {
+            margin-left: 15px;
+            font-style: normal;
+        }
+    }
+    .missionDate {
+        label {
+            margin: 0 0.5rem;
+            padding: 2px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+        input[type="date"] {
+            padding: 2px;
+            text-align: center;
+        }
+    }
+    .limiteGroupcandidacy {
+        display: flex;
+        label {
+            margin-right: 5px;
+            padding: 2px;
+        }
+        input[type="number"] {
+            width: 5rem;
+            padding: 2px;
+            text-align: end;
+        }
+    }
+    .btn {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+@import "./colorTheme";

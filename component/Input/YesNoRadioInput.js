@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/Register.module.scss";
+import styles from "./Input.module.scss";
 
 export default function YesNoRadioInput({
   nameEn,

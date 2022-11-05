@@ -1,19 +1,18 @@
-@import '../../styles/_colorTheme.scss';
+@import "../../styles/_colorTheme.scss";
 
-.navbar{
+.navbar {
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    font-size: 20px;
     font-weight: 500;
     background-color: $bg-navbar;
-}
-
-.navbar a {
-    margin: 0 10px;
-    color: $secondary;
-    text-decoration: none;
-}
-.navbar a:hover {
-    color: $primary;
+     border-bottom: 1px solid $grey;
+    a {
+        margin: 0 10px;
+        color: $secondary;
+        text-decoration: none;
+        &:hover {
+            color: $info;
+        }
+    }
 }

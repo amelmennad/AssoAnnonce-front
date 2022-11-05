@@ -10,19 +10,16 @@
 
     .login {
         padding: 2rem;
-        
-        .btn {
-            width: 300px;
-            margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-        }
     }
     .register {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
+
+        button {
+            max-width: 275px;
+        }
     }
 }
 
@@ -36,11 +33,33 @@
         .register {
             width: 100%;
         }
-    .register {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
+        .register {
+            height: 25vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+        }
     }
 }
+@media (max-width: 600px) {
+    .identification {
+        .login {
+            padding: 1rem;
+        }
+        .register {
+            height: 35vh;
+        }
+    }
+}
+@media (max-width: 375px) {
+    .identification {
+.register {
+content: space-evenly;
+
+        button {
+            max-width: 175px;
+        }
+    }
+    }
 }

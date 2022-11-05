@@ -33,3 +33,15 @@
     
 }
 
+@media (max-width: 961px) {
+
+    .mission {
+        flex-direction: column-reverse;
+    section:first-child {
+        width: 90%;
+    }
+    section:last-child {
+        width: 90%;
+    }  
+}
+}

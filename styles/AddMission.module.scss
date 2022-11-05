@@ -38,4 +38,18 @@
         justify-content: space-between;
     }
 }
-@import "./colorTheme";
+
+@media (max-width: 600px) {
+    .AddMissionForm {
+        .limiteGroupcandidacy {
+            flex-direction: column;
+            label{
+                margin-top: 20px;
+            }
+            input[type="number"] {
+                width: 50%;
+                margin: 0 auto 20px auto;
+            }
+        }
+    }
+}

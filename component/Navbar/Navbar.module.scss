@@ -2,17 +2,50 @@
 
 .navbar {
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
+    border-bottom: 1px solid $grey;
+    color: $secondary;
     font-weight: 500;
     background-color: $bg-navbar;
-     border-bottom: 1px solid $grey;
-    a {
-        margin: 0 10px;
-        color: $secondary;
-        text-decoration: none;
-        &:hover {
-            color: $info;
+    .reactIcons {
+        cursor: pointer;
+    }
+    .divMenu {
+        display: flex;
+        justify-content: space-between;
+        a {
+            margin: 0 10px;
+            font-size: 16px;
+
+            color: $secondary;
+            text-decoration: none;
+            &:hover {
+                color: $info;
+            }
+        }
+    }
+    .divHamburgerMenu {
+        .divHamburgerMenu {
+            width: max-content;
+            cursor: pointer;
+            &:hover {
+                color: $info;
+            }
+        }
+    }
+}
+
+@media (max-width: 961px) {
+    .navbar {
+        .divHamburgerMenu {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .divMenu {
+            display: flex;
+            flex-direction: column;
+            a {
+                font-size: 17px;
+            }
         }
     }
 }

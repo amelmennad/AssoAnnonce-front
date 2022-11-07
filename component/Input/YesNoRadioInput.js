@@ -13,7 +13,9 @@ export default function YesNoRadioInput({
 }) {
   return (
     <>
-      <label htmlFor={nameEn}>{nameFR}</label>
+      <label htmlFor={nameEn} className={styles.firstLabelRadioInput}>
+        {nameFR}
+      </label>
       <div className={styles.radioInput}>
         <div>
           <input

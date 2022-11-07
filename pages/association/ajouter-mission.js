@@ -11,60 +11,88 @@ import Loading from "component/Loading/Loading";
 import Link from "next/link";
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 import styles from "../../styles/AddMission.module.scss";
 
 export default function AjouterAnnonce() {
   const [missionTitle, setMissionTitle] = useState("");
+  const [invalidMissionTitle, setInvalidMissionTitle] = useState(false);
+  const [place, setPlace] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [invalidJobDescription, setInvalidJobDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [groupedApplications, setGroupedApplications] = useState(false);
-  const [missionData, setMissionData] = useState({});
+  const [limiteGroupCandidacy, setLimiteGroupCandidacy] = useState(0);
+  const [invalidDate, setInvalidDate] = useState(false);
 
   const [validated, setValidated] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({});
+  const [missionData, setMissionData] = useState({});
 
-  // const checkStartDate = () => {};
+  const router = useRouter();
+  const checkDate = () => {
+    const now = new Date();
+    if (startDate < endDate) {
+      setInvalidDate(false);
+    } else {
+      setInvalidDate(true);
+    }
+    if (startDate < now || endDate < now || startDate > endDate) {
+      setInvalidDate(true);
+    } else {
+      setInvalidDate(false);
+    }
+  };
+
   const sendDate = async (data) => {
     try {
-      console.log("file: ajouter-mission.js -> line 32 -> data", data);
-      // const response = await axios.post(
-      // `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/createMission`,
-      //   data
-      // );
-      // setIsLoading(true);
-      // setData(response.data);
-      // if (data) {
-      //   // router.push("/");
-      // }
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/mission/create`,
+        data
+      );
+      setIsLoading(true);
+      setMissionData(response.data);
+      if (missionData) {
+        router.push("/");
+      }
     } catch (error) {
       console.log("file: ajouter-mission.js -> line 43 -> error", error);
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (missionTitle.length < 55) {
+    if (missionTitle.length < 20) {
       setValidated(false);
     }
     if (jobDescription.length < 500) {
       setValidated(false);
     }
-    if (!missionTitle || !jobDescription || !startDate || !endDate) {
+
+    if (
+      !missionTitle ||
+      !jobDescription ||
+      !startDate ||
+      !endDate ||
+      (groupedApplications && limiteGroupCandidacy < 1)
+    ) {
       setValidated(false);
       e.stopPropagation();
     } else {
-      console.log("toto");
       const newMission = {
         missionTitle,
+        place,
         jobDescription,
         startDate,
         endDate,
         groupedApplications,
       };
-      if (groupedApplications && groupedApplications) {
+
+      if (groupedApplications && limiteGroupCandidacy > 0) {
         newMission.groupedApplications = groupedApplications;
       }
       setIsLoading(true);
@@ -86,7 +114,23 @@ export default function AjouterAnnonce() {
                 nameFR={"Intitulé de la mission"}
                 required={true}
                 stateName={missionTitle}
-                onChange={(e) => setMissionTitle(e.target.value)}
+                onChange={(e) => {
+                  setMissionTitle(e.target.value);
+                  if (e.target.value.length < 20) {
+                    setInvalidMissionTitle(true);
+                  } else {
+                    setInvalidMissionTitle(false);
+                  }
+                }}
+                validated={validated}
+                invalid={invalidMissionTitle}
+              />
+              <TextInput
+                nameEn={"place"}
+                nameFR={"Lieu de la mission"}
+                required={true}
+                stateName={place}
+                onChange={(e) => setPlace(e.target.value)}
                 validated={validated}
               />
               <Textarea
@@ -94,8 +138,16 @@ export default function AjouterAnnonce() {
                 nameFR={"Description et détails de la mission"}
                 required={true}
                 stateName={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
+                onChange={(e) => {
+                  setJobDescription(e.target.value);
+                  if (e.target.value.length < 500) {
+                    setInvalidJobDescription(true);
+                  } else {
+                    setInvalidJobDescription(false);
+                  }
+                }}
                 validated={validated}
+                invalid={invalidJobDescription}
                 cols={"30"}
                 rows={"20"}
               />
@@ -106,32 +158,58 @@ export default function AjouterAnnonce() {
                   nameFR={"Du"}
                   required={true}
                   stateName={startDate}
-                  onBlur={(e) => setStartDate(e.target.value)}
+                  onBlur={(e) => {
+                    setStartDate(e.target.value);
+                    checkDate();
+                  }}
                   validated={validated}
-                  // invalid={checkStartDate}
+                  invalid={invalidDate}
                 />
                 <DateInput
                   nameEn={"endDate"}
                   nameFR={"Au"}
                   required={true}
                   stateName={endDate}
-                  onBlur={(e) => setEndDate(e.target.value)}
+                  onBlur={(e) => {
+                    setEndDate(e.target.value);
+                    checkDate();
+                  }}
                   validated={validated}
-                  // invalid={checkStartDate}
+                  invalid={invalidDate}
                 />
+                {invalidDate && <p className="isInvalid">Les dates sont invalide</p>}
               </div>
               <CheckboxInput
                 nameEn={"groupedApplications"}
                 nameFR={"Autoriser les candidatures groupées"}
                 stateName={groupedApplications}
-                onChange={(e) => setGroupedApplications(!groupedApplications)}
+                onChange={(e) => {
+                  setGroupedApplications(!groupedApplications);
+                  if (groupedApplications) {
+                    setLimiteGroupCandidacy(0);
+                  }
+                }}
                 validated={validated}
               />
-              <div className={styles.limiteGroupcandidacy}>
-                <label htmlFor="limiteGroupcandidacy">
-                  Limiter les candidature (par groupe) :{" "}
-                </label>
-                <input type="number" name="limiteGroupcandidacy" id="limiteGroupcandidacy" />
+              <div className={styles.limiteGroupCandidacy}>
+                <label htmlFor="limiteGroupCandidacy">Limiter les candidature (par groupe) :</label>
+                <input
+                  type="number"
+                  name="limiteGroupCandidacy"
+                  id="limiteGroupCandidacy"
+                  value={limiteGroupCandidacy}
+                  onChange={(e) => setLimiteGroupCandidacy(e.target.value)}
+                  className={
+                    (!groupedApplications
+                      ? ""
+                      : !validated && groupedApplications && limiteGroupCandidacy < 1) ||
+                    invalidJobDescription
+                      ? "isInvalid"
+                      : groupedApplications && limiteGroupCandidacy > 0
+                      ? "isValid"
+                      : ""
+                  }
+                />
               </div>
               <div className={styles.btn}>
                 <Button type="submit" name={"Poster"} />

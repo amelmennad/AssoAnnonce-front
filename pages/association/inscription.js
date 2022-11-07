@@ -562,7 +562,7 @@ function Inscription() {
                 </span>
               </p>
             )}
-            <div className={styles.btn}>
+            <div className="btn">
               <ButtonCustom name={"Inscription"} type={"submit"} />
             </div>
           </form>

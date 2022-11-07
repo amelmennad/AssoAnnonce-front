@@ -107,7 +107,7 @@ export default function Identification() {
               validated={validated}
               invalid={invalidPassword}
             />
-            <div className="btn">
+            <div className={`btn`}>
               <Button type="submit" name={"Connexion"} />
             </div>
           </form>

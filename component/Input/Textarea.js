@@ -5,6 +5,7 @@ export default function Textarea({
   stateName,
   onChange,
   validated,
+  invalid,
   cols,
   rows,
 }) {
@@ -19,7 +20,13 @@ export default function Textarea({
         placeholder={nameFR}
         defaultValue={stateName}
         onChange={onChange}
-        className={!validated && stateName === "" ? "isInvalid" : stateName ? "isValid" : ""}
+        className={
+          (!validated && stateName === "") || invalid
+            ? "isInvalid"
+            : stateName && !invalid
+            ? "isValid"
+            : ""
+        }
         cols={cols}
         rows={rows}
       />

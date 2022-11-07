@@ -146,7 +146,7 @@ function Inscription() {
             <h3>Bénévoles</h3>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form noValidate onSubmit={handleSubmit}>
             {!validated && (
               <p className="isInvalid">Les champs en rouges doivent etres remplis et valide</p>
             )}
@@ -238,7 +238,7 @@ function Inscription() {
             {!cgu && !validated && (
               <p className="error">Obligatoire pour valider l&apos;inscription</p>
             )}
-            <div className={styles.btn}>
+            <div className="btn">
               <ButtonCustom name={"Inscription"} type={"submit"} />
             </div>
           </form>

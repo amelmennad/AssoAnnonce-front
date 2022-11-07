@@ -21,7 +21,7 @@
             text-align: center;
         }
     }
-    .limiteGroupcandidacy {
+    .limiteGroupCandidacy {
         display: flex;
         label {
             margin-right: 5px;
@@ -41,7 +41,7 @@
 
 @media (max-width: 600px) {
     .AddMissionForm {
-        .limiteGroupcandidacy {
+        .limiteGroupCandidacy {
             flex-direction: column;
             label{
                 margin-top: 20px;

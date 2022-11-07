@@ -146,7 +146,7 @@ function Inscription() {
             <h3>Bénévoles</h3>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form noValidate onSubmit={handleSubmit}>
             {!validated && (
               <p className="isInvalid">Les champs en rouges doivent etres remplis et valide</p>
             )}

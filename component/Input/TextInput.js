@@ -1,7 +1,15 @@
 import React from "react";
 import styles from "./Input.module.scss";
 
-export default function TextInput({ nameEn, nameFR, required, stateName, onChange, validated }) {
+export default function TextInput({
+  nameEn,
+  nameFR,
+  required,
+  stateName,
+  onChange,
+  validated,
+  invalid,
+}) {
   return (
     <div className={styles.textInput}>
       <label htmlFor={nameEn}>{nameFR}</label>
@@ -13,7 +21,13 @@ export default function TextInput({ nameEn, nameFR, required, stateName, onChang
         placeholder={nameFR}
         defaultValue={stateName}
         onChange={onChange}
-        className={!validated && stateName === "" ? "isInvalid" : stateName ? "isValid" : ""}
+        className={
+          (!validated && stateName === "") || invalid
+            ? "isInvalid"
+            : stateName && !invalid
+            ? "isValid"
+            : ""
+        }
       />
     </div>
   );

@@ -23,13 +23,19 @@
             }
         }
     }
-    
+    .divHamburgerMenu {
+        display: none;
+    }
+    .divCloseMenu {
+        display: none;
+    }
 }
-
 @media (max-width: 961px) {
     .navbar {
-       
-         .divHamburgerMenu  {
+        .divHamburgerMenuHidden{
+            display: none;
+        }
+        .divHamburgerMenu {
             display: flex;
             justify-content: flex-end;
             cursor: pointer;
@@ -38,6 +44,9 @@
             }
         }
         .divMenu {
+            display: none;
+        }
+        .divMenuOpen {
             display: flex;
             flex-direction: column;
             a {
@@ -45,6 +54,9 @@
             }
         }
         .divCloseMenu {
+            display: none;
+        }
+        .divCloseMenuOpen {
             display: flex;
             justify-content: flex-end;
             margin-right: 10px;

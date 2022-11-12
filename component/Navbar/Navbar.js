@@ -47,57 +47,51 @@ export default function NavbarCustom() {
 
   return (
     <nav className={styles.navbar + " sticky-top"}>
-      {screenWidth < 961 && !isMenuOpen ? (
-        <div className={styles.divHamburgerMenu}>
-          <div
-            onClick={(e) => {
-              setMenuOpen(true);
-            }}
-          >
-            <GiHamburgerMenu size={22} value={{ className: styles.reactIcons }} />
-          </div>
+      <div className={!isMenuOpen ? styles.divHamburgerMenu : styles.divHamburgerMenuHidden}>
+        <div
+          onClick={(e) => {
+            setMenuOpen(true);
+          }}
+        >
+          <GiHamburgerMenu size={22} value={{ className: styles.reactIcons }} />
         </div>
-      ) : (
-        <>
-          {screenWidth < 961 && isMenuOpen && (
-            <div
-              className={styles.divCloseMenu}
-              onClick={(e) => {
-                setMenuOpen(false);
-              }}
-            >
-              <AiOutlineClose size={18} value={{ className: styles.reactIcons }} />
-            </div>
-          )}
-          <div className={styles.divMenu}>
-            <div>
-              <Link href="/">
-                <a>
-                  <BiHomeSmile size={18} value={{ className: styles.reactIcons }} />
-                </a>
-              </Link>
-            </div>
-            <div>
-              <Link href="">
-                <a>Annonces</a>
-              </Link>
-            </div>
-            <div>
-              <Link href="/identification">
-                <a>S&apos;inscrire | Se connecter</a>
-              </Link>
-              <Link href="/association/ajouter-mission">
-                <a>Ajouter une annonce</a>
-              </Link>
-              <Link href="">
-                <a>
-                  <CgProfile size={18} value={{ className: styles.reactIcons }} />
-                </a>
-              </Link>
-            </div>
-          </div>
-        </>
-      )}
+      </div>
+      <div
+        className={isMenuOpen ? styles.divCloseMenuOpen : styles.divCloseMenu}
+        onClick={(e) => {
+          setMenuOpen(false);
+        }}
+      >
+        <AiOutlineClose size={18} value={{ className: styles.reactIcons }} />
+      </div>
+
+      <div className={isMenuOpen ? styles.divMenuOpen : styles.divMenu}>
+        <div>
+          <Link href="/">
+            <a>
+              <BiHomeSmile size={18} value={{ className: styles.reactIcons }} />
+            </a>
+          </Link>
+        </div>
+        <div>
+          <Link href="">
+            <a>Annonces</a>
+          </Link>
+        </div>
+        <div>
+          <Link href="/identification">
+            <a>S&apos;inscrire | Se connecter</a>
+          </Link>
+          <Link href="/association/ajouter-mission">
+            <a>Ajouter une annonce</a>
+          </Link>
+          <Link href="">
+            <a>
+              <CgProfile size={18} value={{ className: styles.reactIcons }} />
+            </a>
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 }

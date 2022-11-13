@@ -74,7 +74,7 @@ export default function NavbarCustom() {
           </Link>
         </div>
         <div>
-          <Link href="">
+          <Link href="/annonces">
             <a>Annonces</a>
           </Link>
         </div>

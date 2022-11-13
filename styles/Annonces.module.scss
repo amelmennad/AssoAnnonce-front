@@ -1,0 +1,62 @@
+@import "./variableTheme";
+
+.allMissions {
+
+    .oneMission {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2rem;
+        background-clip: border-box;
+        border: 1px solid $grey;
+        border-radius: 0.375rem;
+        box-shadow: 5px 3px 7px -8px rgb(0 0 0 / 73%);
+        margin: 15px 0;
+        .logoAssosiation {
+            border: 0.3px solid $info;
+            border-radius: 50%;
+            margin-right: 10px;
+            img {
+                border: 1px solid $info;
+                border-radius: 50%;
+            }
+        }
+        .detailMission {
+            width: 50%;
+            h3 {
+                font-size: 1.1rem;
+                color: $primary;
+                text-align: start;
+                margin-bottom: 5px;
+            }
+            h4 {
+                margin-bottom: 5px;
+                font-family: $globalFont;
+                color: $secondary;
+                font-weight: normal;
+                text-transform: capitalize;
+            }
+            p {
+                margin-bottom: 5px;
+
+                font-style: italic;
+            }
+        }
+    }
+}
+
+@media (max-width: 961px) {
+}
+@media (max-width: 768px) {
+    .allMissions {
+        .logoAssosiation {
+            display: none;
+        }
+    }
+}
+// @media (max-width: 414px) {
+
+// }
+// @media (max-width: 320px) {
+
+// }

@@ -3,26 +3,19 @@ import styles from "./Mission.module.scss";
 
 import Link from "next/link";
 
-export default function MissionList() {
+export default function MissionList({ key, id, missionTitle, place, startDate, endDate }) {
   return (
-    <PageContainer>
-      <h3>Nos missions</h3>
-      <article className={styles.ourMissions}>
-        <Link href="/mission">
-          <h4>Animateur pour une carmesse</h4>
-        </Link>
-        <p>Seine-et-Marne-77000</p>
+    <div className={styles.ourMissions}>
+      <Link href={`/${id}`}>
+        <a>
+          <h4>{missionTitle}</h4>
 
-        <p>Du : 25/02/2023</p>
-        <p>Au : 26/02/2023</p>
-      </article>
-      <article className={styles.ourMissions}>
-        <h4>Animateur pour une carmesse</h4>
-        <p>Seine-et-Marne-77000</p>
+          <p>{place}</p>
 
-        <p>Du : 25/02/2023</p>
-        <p>Au : 26/02/2023</p>
-      </article>
-    </PageContainer>
+          <p>Du : {startDate}</p>
+          <p>Au : {endDate}</p>
+        </a>
+      </Link>
+    </div>
   );
 }

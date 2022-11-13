@@ -1,4 +1,4 @@
-@import "../../styles/_colorTheme.scss";
+@import "../../styles/_variableTheme.scss";
 .mission {
     display: flex;
     section:first-child {
@@ -17,12 +17,12 @@
             outline: none;
             border: 1px solid $secondary;
         }
-    }    
+    }
 }
 .ourMissions {
     border-bottom: 1px solid $grey;
     padding-bottom: 1rem;
-    &:last-child{
+    &:last-child {
         border: none;
     }
     h4 {
@@ -30,18 +30,43 @@
         margin-bottom: 0.5rem;
         color: $darkSecondary;
     }
-    
+    p {
+        color: $darkSecondary;
+        font-family: $globalFont;
+        text-transform: capitalize;
+    }
+}
+.oneMission {
+    border-bottom: 1px solid $grey;
+    padding: 3rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: max-content;
+    background-color: $content-bg;
+    background-clip: border-box;
+    border: 1px solid $grey;
+    border-radius: 0.375rem;
+    box-shadow: 5px 3px 7px -8px rgb(0 0 0 / 73%);
+    &:last-child {
+        border: none;
+    }
+    h4 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: $darkSecondary;
+    }
 }
 
 @media (max-width: 961px) {
-
     .mission {
         flex-direction: column-reverse;
-    section:first-child {
-        width: 90%;
+        section:first-child {
+            width: 90%;
+        }
+        section:last-child {
+            width: 90%;
+        }
     }
-    section:last-child {
-        width: 90%;
-    }  
-}
 }

@@ -97,7 +97,7 @@ function Inscription() {
 
   const sendDate = async (formData) => {
     try {
-      const response = await axios.post(
+      const responseAssociation = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/register`,
         formData,
         {
@@ -106,10 +106,19 @@ function Inscription() {
           },
         }
       );
-      setIsLoading(true);
-      setData(response.data);
-      if (data) {
-        router.push("/association/profil");
+      if (responseAssociation.data.token) {
+        localStorage.setItem(
+          "assoAUserData",
+          JSON.stringify({
+            id: responseAssociation.data.id,
+            token: responseAssociation.data.token,
+          })
+        );
+        setData(responseAssociation.data);
+        router.push(
+          `/association/${responseAssociation.data.associationName}-${responseAssociation.data.firstName}-${responseAssociation.data.lastName}`
+        );
+        setIsLoading(false);
       }
     } catch (error) {
       setDataExist(true);

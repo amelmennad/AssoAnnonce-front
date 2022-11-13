@@ -4,7 +4,7 @@ import DateInput from "component/Input/DateInput";
 import Textarea from "component/Input/Textarea";
 import TextInput from "component/Input/TextInput";
 import Mission from "component/Mission/Mission";
-import MissionList from "component/Mission/MissionList";
+// import MissionList from "component/PageContainer/BlockContainer";
 import PageContainer from "component/PageContainer/PageContainer";
 import Loading from "component/Loading/Loading";
 
@@ -15,6 +15,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 import styles from "../../styles/AddMission.module.scss";
+import MissionList from "component/Mission/MissionList";
 
 export default function AjouterAnnonce() {
   const [missionTitle, setMissionTitle] = useState("");
@@ -105,7 +106,6 @@ export default function AjouterAnnonce() {
         <Loading />
       ) : (
         <>
-          <MissionList missionData={missionData} />
           <PageContainer>
             <h2>Ajouter une nouvelle mission</h2>
             <form noValidate onSubmit={handleSubmit} className={styles.AddMissionForm}>

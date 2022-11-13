@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
-@import "./colorTheme";
+@import "./variableTheme";
 * {
   box-sizing: border-box;
   padding: 0;
@@ -11,7 +11,7 @@ body {
   padding: 0;
   margin: 0;
   background-color: $light;
-  font-family: Roboto, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: $globalFont;
   font-size: 16px;
   color: $dark;
 }
@@ -36,7 +36,7 @@ h3,
 h4 {
   margin-bottom: 1rem;
   color: $secondary;
-  font-family: "Montserrat", sans-serif;
+  font-family: $titleFont;
   line-height: 1.2;
   letter-spacing: -0.5px;
   line-height: 1.2;

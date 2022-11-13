@@ -1,0 +1,47 @@
+@import "../styles/variableTheme";
+
+.profil {
+    margin: 3rem auto;
+    .user {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 75%;
+        margin: 0 auto;
+
+        .avatar {
+            img {
+                border: 1px solid $grey;
+                border-radius: 0.375rem;
+                box-shadow: 5px 3px 7px -8px rgb(0 0 0 / 73%);
+            }
+        }
+    }
+    .aboutme,
+    .description {
+        width: 75%;
+        margin: 3rem auto;
+        padding: 3rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        height: max-content;
+        background-color: $content-bg;
+        background-clip: border-box;
+        border: 1px solid $grey;
+        border-radius: 0.375rem;
+        box-shadow: 5px 3px 7px -8px rgb(0 0 0 / 73%);
+    }
+    .listContent {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        .divList {
+            width: 45%;
+            section {
+                width: 100%;
+            }
+        }
+    }
+}

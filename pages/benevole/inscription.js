@@ -88,16 +88,25 @@ function Inscription() {
 
   const sendDate = async (data) => {
     try {
-      const response = await axios.post(
+      const responseVolunteer = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/api/volunteer/register`,
         data
       );
-      setIsLoading(true);
-      setData(response.data);
-      if (data) {
-        router.push("/benevole/profil");
+      if (responseVolunteer.data.token) {
+        localStorage.setItem(
+          "assoAUserData",
+          JSON.stringify({
+            id: responseVolunteer.data.id,
+            token: responseVolunteer.data.token,
+            role: responseVolunteer.data.role,
+          })
+        );
+        setIsLoading(true);
+        setData(responseVolunteer.data);
+        router.push(`/benevole/${responseVolunteer.data.slug}`);
       }
     } catch (error) {
+      console.log("file: inscription.js -> line 101 -> error", error);
       setDataExist(true);
     }
   };
@@ -129,6 +138,7 @@ function Inscription() {
         email: email,
         password: password,
         birthday: birthday,
+        cgu: cgu,
       };
       const response = sendDate(newVolunteer);
       console.log("file: resetInscription.js -> line 116 -> response", response);
@@ -147,6 +157,7 @@ function Inscription() {
           </div>
 
           <form noValidate onSubmit={handleSubmit}>
+            <p className="info"> * champs obligatoire</p>
             {!validated && (
               <p className="isInvalid">Les champs en rouges doivent etres remplis et valide</p>
             )}
@@ -162,7 +173,7 @@ function Inscription() {
             )}
             <TextInput
               nameEn={"lastName"}
-              nameFR={"Nom"}
+              nameFR={"Nom *"}
               required={true}
               stateName={lastName}
               onChange={(e) => setLastName(e.target.value)}
@@ -170,7 +181,7 @@ function Inscription() {
             />
             <TextInput
               nameEn={"firstName"}
-              nameFR={"Prénom"}
+              nameFR={"Prénom *"}
               required={true}
               stateName={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -178,7 +189,7 @@ function Inscription() {
             />
             <DateInput
               nameEn={"birthday"}
-              nameFR={"Date de naissance"}
+              nameFR={"Date de naissance *"}
               required={true}
               stateName={birthday}
               onBlur={checkBirthday}
@@ -190,7 +201,7 @@ function Inscription() {
               (invalidBirthday && <p className="error">Désolé vous êtes trops jeune 😔</p>)}
             <EmailInput
               nameEn={"email"}
-              nameFR={"Adresse e-mail"}
+              nameFR={"Adresse e-mail *"}
               required={true}
               stateName={email}
               onChange={handleChangeEmail}
@@ -199,7 +210,7 @@ function Inscription() {
             />
             <PasswordInput
               nameEn={"password"}
-              nameFR={"Mot de passe"}
+              nameFR={"Mot de passe *"}
               required={true}
               stateName={password}
               onChange={handleChangePassword}
@@ -214,7 +225,7 @@ function Inscription() {
               <p className="error">Entrer un mot de passe valide</p>
             )}
             <PasswordInput
-              nameEn={"confirmPassword"}
+              nameEn={"confirmPassword *"}
               nameFR={"Confirmation du mot de passe"}
               required={true}
               stateName={confirmPassword}
@@ -227,7 +238,7 @@ function Inscription() {
             )}
             <CheckboxInput
               nameEn={"cgu"}
-              nameFR={"J'accepte les conditions d'utilisation"}
+              nameFR={"J'accepte les conditions d'utilisation *"}
               required={true}
               stateName={cgu}
               onChange={(e) => {

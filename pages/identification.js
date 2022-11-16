@@ -53,39 +53,36 @@ export default function Identification() {
         `${process.env.NEXT_PUBLIC_BACKEND_API}/api/volunteer/login`,
         data
       );
-      if (responseVolunteer.data.token) {
-        localStorage.setItem(
-          "assoAUserData",
-          JSON.stringify({
-            id: responseVolunteer.data.id,
-            token: responseVolunteer.data.token,
-          })
-        );
-        setAppState(responseVolunteer.data);
-        router.push(
-          `/benevole/${responseVolunteer.data.firstName}-${responseVolunteer.data.lastName}`
-        );
-      }
+      // if (responseVolunteer.data.token) {
+      localStorage.setItem(
+        "assoAUserData",
+        JSON.stringify({
+          id: responseVolunteer.data.id,
+          token: responseVolunteer.data.token,
+          role: responseVolunteer.data.role,
+        })
+      );
+      setAppState(responseVolunteer.data);
+      router.push(`/benevole/${responseVolunteer.data.slug}`);
+      // }
     } catch (error) {
       try {
         const responseAssociation = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/login`,
           data
         );
-        localStorage.setItem(
-          "assoAUserData",
-          JSON.stringify({
-            id: responseAssociation.data.id,
-            token: responseAssociation.data.token,
-          })
-        );
-        setUser(responseAssociation.data);
-        console.log(
-          "file: identification.js -> line 83 -> responseAssociation",
-          responseAssociation
-        );
-        // router.push("/association/profil");
-        router.push(`/association/${responseAssociation.data.associationName}`);
+        if (responseAssociation.data.token) {
+          localStorage.setItem(
+            "assoAUserData",
+            JSON.stringify({
+              id: responseAssociation.data.id,
+              token: responseAssociation.data.token,
+              role: responseAssociation.data.role,
+            })
+          );
+          setUser(responseAssociation.data);
+          router.push(`/association/${responseAssociation.data.associationName}`);
+        }
       } catch (error) {
         setValidated(false);
       }

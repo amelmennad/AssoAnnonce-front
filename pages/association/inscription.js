@@ -112,12 +112,11 @@ function Inscription() {
           JSON.stringify({
             id: responseAssociation.data.id,
             token: responseAssociation.data.token,
+            role: responseAssociation.data.role,
           })
         );
         setData(responseAssociation.data);
-        router.push(
-          `/association/${responseAssociation.data.associationName}-${responseAssociation.data.firstName}-${responseAssociation.data.lastName}`
-        );
+        router.push(`/association/${responseAssociation.data.slug}`);
         setIsLoading(false);
       }
     } catch (error) {
@@ -221,6 +220,8 @@ function Inscription() {
           </div>
 
           <form noValidate onSubmit={handleSubmit}>
+            <p className="info">* champs obligatoire</p>
+
             {!validated && (
               <p className={"isInvalid"}>Les champs en rouges doivent etres remplis et valide</p>
             )}
@@ -238,7 +239,7 @@ function Inscription() {
               <legend>Identité du Gestionnaire</legend>
               <TextInput
                 nameEn={"lastName"}
-                nameFR={"Nom"}
+                nameFR={"Nom *"}
                 required={true}
                 stateName={lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -246,7 +247,7 @@ function Inscription() {
               />
               <TextInput
                 nameEn={"firstName"}
-                nameFR={"Prénom"}
+                nameFR={"Prénom *"}
                 required={true}
                 stateName={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
@@ -254,7 +255,7 @@ function Inscription() {
               />
               <EmailInput
                 nameEn={"email"}
-                nameFR={"Adresse e-mail"}
+                nameFR={"Adresse e-mail *"}
                 required={true}
                 stateName={email}
                 onChange={handleChangeEmail}
@@ -263,15 +264,15 @@ function Inscription() {
               />
               <TextInput
                 nameEn={"address"}
-                nameFR={"Adresse de l'association"}
+                nameFR={"Adresse de l'association *"}
                 required={true}
                 stateName={address}
                 onChange={(e) => setAddress(e.target.value)}
                 validated={validated}
               />
               <FileInput
-                nameEn={"powerDelegation"}
-                nameFR={"Délégation de pouvoir prévue à l'embauche"}
+                nameEn={"powerDelegation *"}
+                nameFR={"Délégation de pouvoir prévue à l'embauche *"}
                 required={true}
                 stateName={powerDelegation}
                 validated={validated}
@@ -286,7 +287,7 @@ function Inscription() {
               />
               <FileInput
                 nameEn={"associationStatutes"}
-                nameFR={"Statuts de l'association"}
+                nameFR={"Statuts de l'association *"}
                 required={true}
                 stateName={associationStatutes}
                 validated={validated}
@@ -300,7 +301,7 @@ function Inscription() {
               />
               <FileInput
                 nameEn={"interiorRules"}
-                nameFR={"Règlement intérieur"}
+                nameFR={"Règlement intérieur  *"}
                 required={true}
                 stateName={interiorRules}
                 validated={validated}
@@ -335,7 +336,7 @@ function Inscription() {
               />
               <TextInput
                 nameEn={"associationName"}
-                nameFR={"Nom de l'association"}
+                nameFR={"Nom de l'association *"}
                 required={true}
                 stateName={associationName}
                 onChange={(e) => setAssociationName(e.target.value)}
@@ -343,7 +344,7 @@ function Inscription() {
               />
               <TextInput
                 nameEn={"objectAssociation"}
-                nameFR={"Objet"}
+                nameFR={"Objet *"}
                 required={true}
                 stateName={objectAssociation}
                 onChange={(e) => setObjectAssociation(e.target.value)}
@@ -351,7 +352,7 @@ function Inscription() {
               />
               <TextInput
                 nameEn={"headOffice"}
-                nameFR={"Siége Social"}
+                nameFR={"Siége Social *"}
                 required={true}
                 stateName={headOffice}
                 onChange={(e) => setHeadOffice(e.target.value)}
@@ -359,7 +360,7 @@ function Inscription() {
               />
               <TextInput
                 nameEn={"rnaNumber"}
-                nameFR={"Numéro RNA"}
+                nameFR={"Numéro RNA *"}
                 required={true}
                 stateName={rnaNumber}
                 onChange={(e) => setRnaNumber(e.target.value)}
@@ -367,7 +368,7 @@ function Inscription() {
               />
               <FileInput
                 nameEn={"joafePublication"}
-                nameFR={"Justificatifs de publication au Joafe"}
+                nameFR={"Justificatifs de publication au Joafe *"}
                 required={true}
                 stateName={joafePublication}
                 validated={validated}
@@ -521,7 +522,7 @@ function Inscription() {
               <legend>Information Complémenatire</legend>
               <PasswordInput
                 nameEn={"password"}
-                nameFR={"Mot de passe"}
+                nameFR={"Mot de passe *"}
                 required={true}
                 stateName={password}
                 onChange={handleChangePassword}
@@ -534,7 +535,7 @@ function Inscription() {
               </p>
               <PasswordInput
                 nameEn={"confirmPassword"}
-                nameFR={"Confirmation du mot de passe"}
+                nameFR={"Confirmation du mot de passe *"}
                 required={true}
                 stateName={confirmPassword}
                 onChange={comparePassword}
@@ -548,7 +549,7 @@ function Inscription() {
 
               <CheckboxInput
                 nameEn={"cgu"}
-                nameFR={"J'accepte les conditions d'utilisation"}
+                nameFR={"J'accepte les conditions d'utilisation *"}
                 required={true}
                 stateName={cgu}
                 onChange={(e) => {

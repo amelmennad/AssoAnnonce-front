@@ -8,6 +8,7 @@ import Button from "component/Button/Button";
 import MissionList from "component/Mission/MissionList";
 import styles from "../../styles/Profil.module.scss";
 import Img from "component/Img/Img";
+import { useRouter } from "next/router";
 
 export default function profil() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,16 +17,15 @@ export default function profil() {
   const [emptyMission, setEmptyMissionData] = useState(false);
   const [srcValue, setSrcValue] = useState("");
 
+  const router = useRouter();
+
   useEffect(() => {
+    console.log(router);
+
     const storageUserData = JSON.parse(localStorage.getItem("assoAUserData"));
     const fetchData = async () => {
       const responseAssocociation = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/${storageUserData.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storageUserData.token}`,
-          },
-        }
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/${storageUserData.id}`
       );
       setUserData(responseAssocociation.data);
       if (responseAssocociation.data.logo) {
@@ -97,13 +97,13 @@ export default function profil() {
       </div>
       <div className={styles.listContent}>
         <div className={styles.divList}>
+          <h3>Nos missions</h3>
           {emptyMission ? (
             <PageContainer>
               <p>Aucune mission en cours</p>
             </PageContainer>
           ) : (
             <PageContainer>
-              <h3>Nos missions</h3>
               {missionData.map((mission, key) => {
                 return (
                   <MissionList

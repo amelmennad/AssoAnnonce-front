@@ -92,6 +92,7 @@ function Inscription() {
         `${process.env.NEXT_PUBLIC_BACKEND_API}/api/volunteer/register`,
         data
       );
+
       if (responseVolunteer.data.token) {
         localStorage.setItem(
           "assoAUserData",
@@ -101,8 +102,8 @@ function Inscription() {
             role: responseVolunteer.data.role,
           })
         );
-        setIsLoading(true);
         setData(responseVolunteer.data);
+        setIsLoading(true);
         router.push(`/benevole/${responseVolunteer.data.slug}`);
       }
     } catch (error) {

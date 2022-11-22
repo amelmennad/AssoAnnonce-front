@@ -71,6 +71,10 @@ export default function Identification() {
           `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/login`,
           data
         );
+        console.log(
+          "file: identification.js -> line 74 -> responseAssociation",
+          responseAssociation
+        );
         if (responseAssociation.data.token) {
           localStorage.setItem(
             "assoAUserData",

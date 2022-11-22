@@ -29,8 +29,15 @@ export default function profil({ firstName, lastName, birthday, avatar = "", abo
   return (
     <div className={styles.profil}>
       <div className={styles.user}>
-        <Img src={srcValue} alt={firstName + "-" + lastName} width={150} height={150} />
-
+        <div className={styles.avatar}>
+          <Img
+            src={srcValue}
+            alt={firstName + "-" + lastName}
+            width={150}
+            height={150}
+            status="volunteer"
+          />
+        </div>
         <div className={styles.info}>
           <h2>
             {firstName} {lastName}

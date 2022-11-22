@@ -116,11 +116,13 @@ function Inscription() {
           })
         );
         setData(responseAssociation.data);
+        setIsLoading(true);
         router.push(`/association/${responseAssociation.data.slug}`);
-        setIsLoading(false);
       }
     } catch (error) {
+      console.log("file: inscription.js -> line 123 -> error", error);
       setDataExist(true);
+      setIsLoading(false);
     }
   };
 

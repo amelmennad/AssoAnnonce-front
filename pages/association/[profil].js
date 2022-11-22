@@ -10,72 +10,74 @@ import styles from "../../styles/Profil.module.scss";
 import Img from "component/Img/Img";
 import { useRouter } from "next/router";
 
-export default function profil() {
+export default function profil({ associationName, address, logo = "", description = "" }) {
+  // console.log("file: [profil].js -> line 14 -> props", props);
   const [isLoading, setIsLoading] = useState(true);
-  const [userData, setUserData] = useState([]);
-  const [missionData, setMissionData] = useState([]);
-  const [emptyMission, setEmptyMissionData] = useState(false);
+  // const [userData, setUserData] = useState([]);
+  const [missionData, setMissionData] = useState();
   const [srcValue, setSrcValue] = useState("");
 
   const router = useRouter();
 
-  useEffect(() => {
-    console.log(router);
+  if (logo) {
+    setSrcValue(logo.replace("https://res.cloudinary.com/", ""));
+  }
 
-    const storageUserData = JSON.parse(localStorage.getItem("assoAUserData"));
-    const fetchData = async () => {
-      const responseAssocociation = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/${storageUserData.id}`
-      );
-      setUserData(responseAssocociation.data);
-      if (responseAssocociation.data.logo) {
-        setSrcValue(responseAssocociation.data.logo.replace("https://res.cloudinary.com/", ""));
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
+  const defaultAvatar = ({ src, width }) => {
+    return `https://res.cloudinary.com/${src}?w=${width}`;
+  };
 
-  useEffect(() => {
-    const storageUserData = JSON.parse(localStorage.getItem("assoAUserData"));
-    const fetchData = async () => {
-      const responseMissions = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/missions/${storageUserData.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storageUserData.token}`,
-          }, // notice the Bearer before your token
-        }
-      );
-      console.log("file: [profil].js -> line 46 -> responseMissions", responseMissions);
-      if (responseMissions.data.length > 0) {
-        setMissionData(responseMissions.data);
-        setIsLoading(false);
-      } else {
-        setEmptyMissionData(true);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   console.log(router);
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  //   const storageUserData = JSON.parse(localStorage.getItem("assoAUserData"));
+  //   const fetchData = async () => {
+  //     const responseAssocociation = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/$${slug}`
+  //     );
+  //     setUserData(responseAssocociation.data);
+  //     if (responseAssocociation.data.logo) {
+  //       setSrcValue(responseAssocociation.data.logo.replace("https://res.cloudinary.com/", ""));
+  //     }
+  //     setIsLoading(false);
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const storageUserData = JSON.parse(localStorage.getItem("assoAUserData"));
+  //   const fetchData = async () => {
+  //     const responseMissions = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/missions/${storageid}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${storagetoken}`,
+  //         }, // notice the Bearer before your token
+  //       }
+  //     );
+  //     console.log("file: [profil].js -> line 46 -> responseMissions", responseMissions);
+  //     if (responseMissions.data.length > 0) {
+  //       setMissionData(responseMissions.data);
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
+  return (
     <div className={styles.profil}>
       <div className={styles.user}>
         <div className={styles.logo}>
           <Img
             src={srcValue}
-            // alt={userData.firstName + "-" + userData.lastName}
+            // alt={firstName + "-" + lastName}
             width={150}
             height={150}
           />
         </div>
         <div className={styles.info}>
-          <h2>
-            {userData.firstName} {userData.lastName}
-          </h2>
-          <h3>{userData.address}</h3>
+          <h2>{associationName}</h2>
+          <h3>{address}</h3>
           <div>
             <Button type="button" name={"suivre"} />
           </div>
@@ -83,8 +85,8 @@ export default function profil() {
       </div>
       <div className={styles.description}>
         <h4>A propos de nous:</h4>
-        {userData.description ? (
-          <p>{userData.description}</p>
+        {description ? (
+          <p>{description}</p>
         ) : (
           <p>Aucune description disponible</p>
 
@@ -97,14 +99,12 @@ export default function profil() {
       </div>
       <div className={styles.listContent}>
         <div className={styles.divList}>
-          <h3>Nos missions</h3>
-          {emptyMission ? (
-            <PageContainer>
-              <p>Aucune mission en cours</p>
-            </PageContainer>
-          ) : (
-            <PageContainer>
-              {missionData.map((mission, key) => {
+          <PageContainer>
+            <h3>Nos missions</h3>
+            {!missionData ? (
+              <p>Aucune mission réalisée pour le moment</p>
+            ) : (
+              missionData.map((mission, key) => {
                 return (
                   <MissionList
                     key={key}
@@ -115,9 +115,9 @@ export default function profil() {
                     endDate={mission.endDate}
                   />
                 );
-              })}
-            </PageContainer>
-          )}
+              })
+            )}
+          </PageContainer>
         </div>
         <div className={styles.divList}>
           <PageContainer>
@@ -132,4 +132,31 @@ export default function profil() {
       </div>
     </div>
   );
+}
+export async function getServerSideProps(context) {
+  const slug = context.params.profil;
+
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_API}/api/association/${slug}`
+  );
+
+  // if (response.data == "not found" || !response.data) {
+  //   // return {
+  //   //
+  //   // };
+  //   return { redirect: { destination: "/", permanent: false } };
+  // }
+  const data = response.data;
+  console.log("file: [profil].js -> line 152 -> data", data);
+
+  if (data.logo) {
+    propData.logo = data.logo;
+  }
+  if (data.description) {
+    propData.description = data.description;
+  }
+
+  return {
+    props: data,
+  };
 }
